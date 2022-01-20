@@ -5,4 +5,7 @@
  * @version 1.0.0
  */
 
-console.log('TODO: Start working on the assignment')
+import './components/bottom-panel'
+
+const BottomPanel = document.createElement('bottom-panel')
+document.body.appendChild(BottomPanel)
