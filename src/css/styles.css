@@ -6,3 +6,8 @@
 body {
 	background: #ffffff;
 }
+
+main {
+  width: auto;
+  height: 100vh;
+}

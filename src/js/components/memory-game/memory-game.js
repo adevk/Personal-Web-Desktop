@@ -24,6 +24,8 @@ template.innerHTML = `
         background-size: contain;
         background-repeat: repeat-x;
 
+        border: 2px solid black;
+
         display: block;
         position: relative; /* Make positioning context for children */
         
