@@ -13,23 +13,14 @@ template.innerHTML = `
   <style>
     :host {
       position: absolute;
-      left: 0;
-      right: 0;
-      top: 20px;
+      bottom: 0;
+      width: 100%;
     }
 
     .root {
-      background-color: white;
-      border-radius: 4px;
+      background-color: brown;
       box-shadow: 0 0 8px black;
-
-      display: flex;
-      flex-direction: column;
-
-      margin: 0 auto;
       padding: 16px;
-
-      width: fit-content;
     }
 
     span {
@@ -39,24 +30,20 @@ template.innerHTML = `
     }
 
     button {
-      background-color: white;
-      border: solid 2px #35cd31;
-      border-radius: 4px;
-      color: #185815;
+      background-color: blue;
+      border-color: black;
+      border-radius: 50%;
 
       font-size: 16px;
       font-weight: bold;
 
-      margin: .1em auto;
-      padding: .2em 1.4em;
+      height: 50px;
+      width: 50px;
     }
   </style>
 
   <div class="root">
-    <!-- <span>Choose a board size</span>
-    <button id="btn16">4x4</button>
-    <button id="btn8">2x4</button>
-    <button id="btn4">2x2</button> -->
+    <button>M</button>
   </div>
   `
 
