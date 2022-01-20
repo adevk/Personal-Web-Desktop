@@ -5,6 +5,8 @@
  * @version 1.0.0
  */
 
+import { MemoryGameClickedEvent } from "./lib/events"
+
 /**
  * Define template.
  */
@@ -43,7 +45,7 @@ template.innerHTML = `
   </style>
 
   <div class="root">
-    <button>M</button>
+    <button id="btn">M</button>
   </div>
   `
 
@@ -55,7 +57,7 @@ customElements.define('bottom-panel',
    * The bottom-panel component.
    */
   class BottomPanel extends HTMLElement {
-
+    #btn
     /**
      * Creates an instance of the current type.
      */
@@ -74,15 +76,18 @@ customElements.define('bottom-panel',
      * Initalizes the component during construction.
      */
     #initialize() {
+      this.#btn = document.querySelector('#btn')
     }
 
     /**
      * Called after the element is inserted into the DOM.
      */
     connectedCallback() {
-      /* this.#btn16.addEventListener('click', (event) => {
-        this.dispatchEvent(new Board16ChosenEvent())
-      }) */
+      this.shadowRoot.addEventListener('click', (event) => {
+        if (event.target.id === 'btn') {
+          this.dispatchEvent(new MemoryGameClickedEvent())
+        }
+      })
     }
   }
 )

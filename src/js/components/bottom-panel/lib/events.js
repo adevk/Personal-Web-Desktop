@@ -1,52 +1,19 @@
 /**
- * Event that gets dispatched when a 4x4 board is chosen.
+ * Event that gets dispatched when the icon for the memory game is clicked.
  *
- * @class Board16ChosenEvent
+ * @class MemoryGameClicked
  * @augments {CustomEvent}
  */
-class Board16ChosenEvent extends CustomEvent {
+class MemoryGameClickedEvent extends CustomEvent {
   /**
    * Constructs the event.
    */
-  constructor () {
-    super('board16Chosen', {
+  constructor() {
+    super('memoryGameClicked', {
       bubbles: true
     })
   }
 }
 
-/**
- * Event that gets dispatched when a 2x4 board is chosen.
- *
- * @class Board8ChosenEvent
- * @augments {CustomEvent}
- */
-class Board8ChosenEvent extends CustomEvent {
-  /**
-   * Constructs the event.
-   */
-  constructor () {
-    super('board8Chosen', {
-      bubbles: true
-    })
-  }
-}
 
-/**
- * Event that gets dispatched when a 2x2 board is chosen.
- *
- * @class Board4ChosenEvent
- * @augments {CustomEvent}
- */
-class Board4ChosenEvent extends CustomEvent {
-  /**
-   * Constructs the event.
-   */
-  constructor () {
-    super('board4Chosen', {
-      bubbles: true
-    })
-  }
-}
-
-export { Board16ChosenEvent, Board8ChosenEvent, Board4ChosenEvent }
+export { MemoryGameClickedEvent }
