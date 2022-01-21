@@ -15,6 +15,8 @@ const startDragging = (event) => {
   event.preventDefault()
   startPosX = event.clientX
   startPosY = event.clientY
+  appWindow.onmousemove = dragWindow
+  appWindow.onmouseup = stopDragging
   console.log(`mouse down: x:${startPosX} y:${startPosY}`)
 }
 
@@ -23,6 +25,11 @@ const dragWindow = (event) => {
   offsetX = startPosX - event.clientX
   offsetY = startPosY - event.clientY
   console.log(`mouse drag: x:${offsetX} y:${offsetY}`)
+}
+
+const stopDragging = (event) => {
+  appWindow.onmousemove = null
+  appWindow.onmouseup = null
 }
 
 const BottomPanel = document.createElement('bottom-panel')
@@ -57,5 +64,5 @@ document.querySelector('main').appendChild(appWindow)
 activeMemoryGames++
 
 appWindow.onmousedown = startDragging
-appWindow.onmousemove = dragWindow
+
 
