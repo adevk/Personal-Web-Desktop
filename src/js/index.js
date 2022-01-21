@@ -9,6 +9,10 @@ import './components/bottom-panel'
 import './components/memory-game'
 import './components/app-window'
 
+const dragMouseDown = (event) => {
+  console.log('dragged')
+}
+
 const BottomPanel = document.createElement('bottom-panel')
 document.body.appendChild(BottomPanel)
 
@@ -39,3 +43,6 @@ const memoryGame = document.createElement('memory-game')
 appWindow.shadowRoot.querySelector('.root').appendChild(memoryGame)
 document.querySelector('main').appendChild(appWindow)
 activeMemoryGames++
+
+appWindow.onmousedown = dragMouseDown;
+
