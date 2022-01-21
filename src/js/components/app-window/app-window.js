@@ -67,6 +67,7 @@ customElements.define('app-window',
    * The bottom-panel component.
    */
   class AppWindow extends HTMLElement {
+    #closeBtn
     #topBar
 
     #startPosX
@@ -87,6 +88,18 @@ customElements.define('app-window',
       this.#initialize()
     }
 
+    /**
+     * Initalizes the component during construction.
+     */
+    #initialize() {
+      this.#closeBtn = this.shadowRoot.querySelector('.close-btn')
+      this.#topBar = this.shadowRoot.querySelector('.top-bar')
+
+      this.#startPosX = 0
+      this.#startPosY = 0
+      this.#offsetX = 0
+      this.#offsetY = 0
+    }
 
     #startDragging(event) {
       event.preventDefault()
@@ -114,23 +127,13 @@ customElements.define('app-window',
       document.onmouseup = null
     }
 
-    /**
-     * Initalizes the component during construction.
-     */
-    #initialize() {
-      this.#topBar = this.shadowRoot.querySelector('.top-bar')
-
-      this.#startPosX = 0
-      this.#startPosY = 0
-      this.#offsetX = 0
-      this.#offsetY = 0
-    }
 
     /**
      * Called after the element is inserted into the DOM.
      */
     connectedCallback() {
       this.#topBar.onmousedown = (event) => this.#startDragging(event)
+      this.#closeBtn.addEventListener('click', () => this.remove())
       document.onmouseup = (event) => this.#stopDragging(event)
     }
   }
