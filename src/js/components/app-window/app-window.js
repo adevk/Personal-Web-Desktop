@@ -5,6 +5,8 @@
  * @version 1.0.0
  */
 
+import { TilingSprite } from "pixi.js"
+
 
 /**
  * Define template.
@@ -47,6 +49,12 @@ customElements.define('app-window',
    * The bottom-panel component.
    */
   class AppWindow extends HTMLElement {
+    #topBar
+
+    #startPosX
+    #startPosY
+    #offsetX
+    #offsetY
     /**
      * Creates an instance of the current type.
      */
@@ -61,17 +69,51 @@ customElements.define('app-window',
       this.#initialize()
     }
 
+
+    #startDragging(event) {
+      event.preventDefault()
+      this.#startPosX = event.clientX
+      this.#startPosY = event.clientY
+      document.onmouseup = (event) => this.#stopDragging(event)
+      document.onmousemove = (event) => this.#dragWindow(event)
+      //console.log(`mouse down: startPosX:${startPosX} startPosY:${startPosY} offsetX:${offsetX} offsetY:${offsetY}`)
+    }
+
+    #dragWindow(event) {
+      event.preventDefault()
+      this.#offsetX = this.#startPosX - event.clientX
+      this.#offsetY = this.#startPosY - event.clientY
+      this.#startPosX = event.clientX
+      this.#startPosY = event.clientY
+      this.style.top = (this.offsetTop - this.#offsetY) + "px";
+      this.style.left = (this.offsetLeft - this.#offsetX) + "px";
+      //console.log(`mouse drag: startPosX:${startPosX} startPosY:${startPosY} offsetX:${offsetX} offsetY:${offsetY}`)
+    }
+
+    #stopDragging(event) {
+      event.preventDefault()
+      document.onmousemove = null
+      document.onmouseup = null
+    }
+
     /**
      * Initalizes the component during construction.
      */
     #initialize() {
+      this.#topBar = this.shadowRoot.querySelector('.top-bar')
+
+      this.#startPosX = 0
+      this.#startPosY = 0
+      this.#offsetX = 0
+      this.#offsetY = 0
     }
 
     /**
      * Called after the element is inserted into the DOM.
      */
     connectedCallback() {
-
+      this.#topBar.onmousedown = (event) => this.#startDragging(event)
+      document.onmouseup = (event) => this.#stopDragging(event)
     }
   }
 )
