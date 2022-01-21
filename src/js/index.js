@@ -7,6 +7,7 @@
 
 import './components/bottom-panel'
 import './components/memory-game'
+import './components/app-window'
 
 const BottomPanel = document.createElement('bottom-panel')
 document.body.appendChild(BottomPanel)
@@ -14,13 +15,15 @@ document.body.appendChild(BottomPanel)
 let activeMemoryGames = 0
 
 document.addEventListener('memoryGameClicked', () => {
+  const appWindow = document.createElement('app-window')
+  appWindow.style.position = 'absolute'
+  appWindow.style.top = `${20 + activeMemoryGames * 10}px`;
+  appWindow.style.left = `${activeMemoryGames * 10}px`;
+  appWindow.style.right = 0;
+  appWindow.style.marginRight = 'auto';
+  appWindow.style.marginLeft = 'auto';
   const memoryGame = document.createElement('memory-game')
-  memoryGame.style.position = 'absolute'
-  memoryGame.style.top = `${20 + activeMemoryGames * 10}px`;
-  memoryGame.style.left = `${activeMemoryGames * 10}px`;
-  memoryGame.style.right = 0;
-  memoryGame.style.marginRight = 'auto';
-  memoryGame.style.marginLeft = 'auto';
-  document.querySelector('main').appendChild(memoryGame)
+  appWindow.shadowRoot.querySelector('.root').appendChild(memoryGame)
+  document.querySelector('main').appendChild(appWindow)
   activeMemoryGames++
 })

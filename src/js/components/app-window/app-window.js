@@ -13,15 +13,16 @@ const template = document.createElement('template')
 template.innerHTML = `
   <style>
     :host {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
+      width: 500px;
+      height: 500px;
+      background-color: gray;
+      box-shadow: 0 0 8px black;
+      padding: 16px;
     }
 
     .root {
-      background-color: brown;
-      box-shadow: 0 0 8px black;
-      padding: 16px;
+      width: 100%;
+      height: 100%;
     }
 
   </style>
@@ -38,7 +39,6 @@ customElements.define('app-window',
    * The bottom-panel component.
    */
   class AppWindow extends HTMLElement {
-    #btn
     /**
      * Creates an instance of the current type.
      */
