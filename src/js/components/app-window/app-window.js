@@ -15,8 +15,9 @@ template.innerHTML = `
     :host {
       width: fit-content;
       height: fit-content;
-      background-color: gray;
-      box-shadow: 0 0 8px black;
+      background-color: white;
+      border: 2px solid gray;
+      box-shadow: 0 0 2px black;
       padding: 16px;
     }
 
@@ -25,10 +26,14 @@ template.innerHTML = `
       height: 100%;
     }
 
-  </style>
+    .top-bar {
+      height: 30px;
+      background-color: blue;
+    }
 
-  <div class="root">
-  </div>
+  </style>
+  <div class="top-bar"></div>
+  <div class="root"></div>
   `
 
 /**
