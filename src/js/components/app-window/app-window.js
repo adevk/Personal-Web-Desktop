@@ -5,6 +5,7 @@
  * @version 1.0.0
  */
 
+const BTN_ICON_URL = new URL('images/cross_scaled.png', import.meta.url).href
 
 /**
  * Define template.
@@ -42,13 +43,18 @@ template.innerHTML = `
     }
 
     .close-btn {
+      padding: 5px;
       width: 20px;
       height: 20px;
+      background-clip: padding-box;
+      background-color: white;
+      background-image: url(${BTN_ICON_URL});
+      background-size: contain;
     }
 
   </style>
   <div class="top-bar">
-    <button class="close-btn">X</button>
+    <button class="close-btn"></button>
   </div>
   <div class="root"></div>
   `
