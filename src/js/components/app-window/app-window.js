@@ -23,6 +23,7 @@ template.innerHTML = `
       position: absolute;
       width: fit-content;
       height: fit-content;
+      z-index: 100;
     }
 
     .root {
