@@ -13,12 +13,14 @@ const template = document.createElement('template')
 template.innerHTML = `
   <style>
     :host {
-      width: fit-content;
-      height: fit-content;
       background-color: white;
       border: 2px solid gray;
       box-shadow: 0 0 2px black;
       padding: 16px;
+      
+      position: absolute;
+      width: fit-content;
+      height: fit-content;
     }
 
     .root {
@@ -27,8 +29,9 @@ template.innerHTML = `
     }
 
     .top-bar {
-      height: 30px;
       background-color: blue;
+      cursor: move;
+      height: 30px;
     }
 
   </style>
