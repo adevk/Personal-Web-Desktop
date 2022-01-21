@@ -9,13 +9,20 @@ import './components/bottom-panel'
 import './components/memory-game'
 import './components/app-window'
 
-let startPosX, startPosY, endPosX, endPosY = 0
+let startPosX, startPosY, offsetX, offsetY = 0
 
-const onMouseDown = (event) => {
+const startDragging = (event) => {
   event.preventDefault()
   startPosX = event.clientX
   startPosY = event.clientY
   console.log(`mouse down: x:${startPosX} y:${startPosY}`)
+}
+
+const dragWindow = (event) => {
+  event.preventDefault()
+  offsetX = startPosX - event.clientX
+  offsetY = startPosY - event.clientY
+  console.log(`mouse drag: x:${offsetX} y:${offsetY}`)
 }
 
 const BottomPanel = document.createElement('bottom-panel')
@@ -49,5 +56,6 @@ appWindow.shadowRoot.querySelector('.root').appendChild(memoryGame)
 document.querySelector('main').appendChild(appWindow)
 activeMemoryGames++
 
-appWindow.onmousedown = onMouseDown;
+appWindow.onmousedown = startDragging
+appWindow.onmousemove = dragWindow
 
