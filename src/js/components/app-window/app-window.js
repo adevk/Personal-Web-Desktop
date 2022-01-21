@@ -13,8 +13,8 @@ const template = document.createElement('template')
 template.innerHTML = `
   <style>
     :host {
-      width: 500px;
-      height: 500px;
+      width: fit-content;
+      height: fit-content;
       background-color: gray;
       box-shadow: 0 0 8px black;
       padding: 16px;
