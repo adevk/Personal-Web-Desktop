@@ -5,10 +5,11 @@
 
 body {
 	background: #75d0fa;
+  overflow: hidden;
 }
 
 main {
   width: auto;
-  height: 100vh;
+  height: 100%;
   position: relative;
 }
