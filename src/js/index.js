@@ -17,6 +17,11 @@ document.body.appendChild(BottomPanel)
 let activeMemoryGames = 0
 
 document.addEventListener('memoryGameClicked', () => {
+  addApp()
+})
+
+
+const addApp = () => {
   const appWindow = document.createElement('app-window')
   appWindow.style.position = 'absolute'
   appWindow.style.top = `${20 + activeMemoryGames * 10}px`;
@@ -25,6 +30,6 @@ document.addEventListener('memoryGameClicked', () => {
   appWindow.shadowRoot.querySelector('.root').appendChild(memoryGame)
   document.querySelector('main').appendChild(appWindow)
   activeMemoryGames++
-})
+}
 
-
+addApp()

@@ -5,8 +5,6 @@
  * @version 1.0.0
  */
 
-import { TilingSprite } from "pixi.js"
-
 
 /**
  * Define template.
@@ -34,11 +32,24 @@ template.innerHTML = `
     .top-bar {
       background-color: blue;
       cursor: move;
+
+      display: flex;
+      justify-content: right;
+      align-items: center;
+
       height: 30px;
+      padding: 2px 6px;
+    }
+
+    .close-btn {
+      width: 20px;
+      height: 20px;
     }
 
   </style>
-  <div class="top-bar"></div>
+  <div class="top-bar">
+    <button class="close-btn">X</button>
+  </div>
   <div class="root"></div>
   `
 
