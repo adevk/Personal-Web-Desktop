@@ -48,9 +48,10 @@ let activeMemoryGames = 0
 
 
 const appWindow = document.createElement('app-window')
+const topBar = appWindow.shadowRoot.querySelector('.top-bar')
 appWindow.style.position = 'absolute'
 appWindow.style.top = `${20 + activeMemoryGames * 10}px`;
-appWindow.style.left = `${activeMemoryGames * 10}px`;
+appWindow.style.left = `${20 + activeMemoryGames * 10}px`;
 const memoryGame = document.createElement('memory-game')
 appWindow.shadowRoot.querySelector('.root').appendChild(memoryGame)
 document.querySelector('main').appendChild(appWindow)
@@ -67,6 +68,6 @@ document.addEventListener('memoryGameClicked', () => {
   activeMemoryGames++
 })
 
-appWindow.onmousedown = startDragging
+topBar.onmousedown = startDragging
 
 
