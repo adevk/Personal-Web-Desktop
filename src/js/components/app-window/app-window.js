@@ -131,8 +131,13 @@ customElements.define('app-window',
 
     removeFocus() {
       this.setAttribute('z-index', 10)
+      console.log(this + ' removeFocus')
     }
 
+    giveFocus() {
+      console.log(this + ' giveFocus')
+      this.setAttribute('z-index', 1000)
+    }
 
     /**
      * Called after the element is inserted into the DOM.

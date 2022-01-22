@@ -11,7 +11,7 @@ class ReceivedFocusEvent extends CustomEvent {
   constructor(app) {
     super('receivedFocus', {
       bubbles: true,
-      detail: app
+      detail: {app}
     })
   }
 }

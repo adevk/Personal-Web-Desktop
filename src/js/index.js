@@ -20,8 +20,11 @@ document.addEventListener('memoryGameClicked', () => {
   addApp()
 })
 
-document.addEventListener('receivedFocus', () => {
-  console.log('receivedFocus')
+document.addEventListener('receivedFocus', (event) => {
+  console.log(`receivedFocus: ${event.detail.app}`)
+  const appToReceiveFocus = event.detail.app
+  unFocusRemainingApps()
+  appToReceiveFocus.giveFocus()
 })
 
 const unFocusRemainingApps = () => {
