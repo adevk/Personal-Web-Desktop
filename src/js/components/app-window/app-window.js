@@ -132,11 +132,13 @@ customElements.define('app-window',
     removeFocus() {
       this.setAttribute('z-index', 10)
       console.log(this + ' removeFocus')
+      this.style.removeProperty('z-index')
     }
 
     giveFocus() {
       console.log(this + ' giveFocus')
-      this.setAttribute('z-index', 1000)
+      //this.setAttribute('z-index', 1000)
+      this.style.setProperty('z-index', 1000)
     }
 
     /**
