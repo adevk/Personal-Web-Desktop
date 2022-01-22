@@ -125,12 +125,34 @@ customElements.define('app-window',
 
     #dragWindow(event) {
       event.preventDefault()
+
       this.#offsetX = this.#startPosX - event.clientX
       this.#offsetY = this.#startPosY - event.clientY
       this.#startPosX = event.clientX
       this.#startPosY = event.clientY
-      this.style.top = (this.offsetTop - this.#offsetY) + "px";
-      this.style.left = (this.offsetLeft - this.#offsetX) + "px";
+
+      const newTop = this.offsetTop - this.#offsetY
+      const newLeft = this.offsetLeft - this.#offsetX
+      console.log(`new top: ${newTop}`)
+      if (newTop > 0 && newTop < (window.innerHeight - this.getBoundingClientRect().height)) {
+        this.style.top = (newTop) + "px"
+      }
+      if (newLeft > 0 && newLeft < (window.innerWidth - this.getBoundingClientRect().width)) {
+        this.style.left = newLeft + "px"
+      }
+
+      console.log('top: ' + this.style.top)
+      console.log('left: ' + this.style.left)
+      const rect = this.getBoundingClientRect()
+      console.log(`x: ${rect.x}, y: ${rect.y}, top: ${rect.top}, left: ${rect.left}, bottom: ${rect.bottom}, right: ${rect.right}`)
+      console.log(`Window - width: ${window.innerWidth}, height: ${window.innerHeight}`)
+    }
+
+    #isTopCollision() {
+      const top = Number(this.style.top.match(/\d+/)[0])
+      console.log('top: ' + top)
+      if (top === 0)
+        return true
     }
 
     #stopDragging(event) {
