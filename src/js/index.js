@@ -9,7 +9,7 @@ import './components/bottom-panel'
 import './components/memory-game'
 import './components/app-window'
 
-
+let liveAppInstances = []
 
 const BottomPanel = document.createElement('bottom-panel')
 document.body.appendChild(BottomPanel)
@@ -20,6 +20,16 @@ document.addEventListener('memoryGameClicked', () => {
   addApp()
 })
 
+document.addEventListener('receivedFocus', () => {
+  console.log('receivedFocus')
+})
+
+const unFocusRemainingApps = () => {
+  liveAppInstances.forEach((app) => {
+    app.removeFocus()
+  })
+}
+
 
 const addApp = () => {
   const appWindow = document.createElement('app-window')
@@ -29,7 +39,9 @@ const addApp = () => {
   const memoryGame = document.createElement('memory-game')
   appWindow.shadowRoot.querySelector('.root').appendChild(memoryGame)
   document.querySelector('main').appendChild(appWindow)
+  liveAppInstances.push(appWindow)
   activeMemoryGames++
 }
 
 addApp()
+

@@ -1,19 +1,20 @@
 /**
- * Event that gets dispatched when the icon for the memory game is clicked.
+ * Event that gets dispatched when an app receives focus.
  *
  * @class MemoryGameClicked
  * @augments {CustomEvent}
  */
-class MemoryGameClickedEvent extends CustomEvent {
+class ReceivedFocusEvent extends CustomEvent {
   /**
    * Constructs the event.
    */
-  constructor() {
-    super('memoryGameClicked', {
-      bubbles: true
+  constructor(app) {
+    super('receivedFocus', {
+      bubbles: true,
+      detail: app
     })
   }
 }
 
 
-export { MemoryGameClickedEvent }
+export { ReceivedFocusEvent }

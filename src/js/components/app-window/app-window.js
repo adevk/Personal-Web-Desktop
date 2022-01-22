@@ -5,6 +5,8 @@
  * @version 1.0.0
  */
 
+import { ReceivedFocusEvent } from "./lib/events"
+
 const BTN_ICON_URL = new URL('images/cross_scaled.png', import.meta.url).href
 
 /**
@@ -127,11 +129,16 @@ customElements.define('app-window',
       document.onmouseup = null
     }
 
+    removeFocus() {
+      this.setAttribute('z-index', 10)
+    }
+
 
     /**
      * Called after the element is inserted into the DOM.
      */
     connectedCallback() {
+      this.addEventListener('click', () => this.dispatchEvent(new ReceivedFocusEvent(this)))
       this.#topBar.onmousedown = (event) => this.#startDragging(event)
       this.#closeBtn.addEventListener('click', () => this.remove())
       document.onmouseup = (event) => this.#stopDragging(event)
