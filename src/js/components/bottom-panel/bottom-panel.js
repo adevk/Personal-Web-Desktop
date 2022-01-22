@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import { MemoryGameIconClickedEvent } from "./lib/events"
+import { MemoryGameIconClickedEvent, ChatAppIconClickedEvent } from "./lib/events"
 
 /**
  * Define template.
@@ -22,7 +22,7 @@ template.innerHTML = `
     .root {
       background-color: brown;
       box-shadow: 0 0 8px black;
-      padding: 16px;
+      padding: 16px 0;
     }
 
     span {
@@ -39,13 +39,16 @@ template.innerHTML = `
       font-size: 16px;
       font-weight: bold;
 
+      margin-left: 10px;
+
       height: 50px;
       width: 50px;
     }
   </style>
 
   <div class="root">
-    <button id="btn">M</button>
+    <button id="btn-memory-game">M</button>
+    <button id="btn-chat-app">C</button>
   </div>
   `
 
@@ -84,8 +87,11 @@ customElements.define('bottom-panel',
      */
     connectedCallback() {
       this.shadowRoot.addEventListener('click', (event) => {
-        if (event.target.id === 'btn') {
+        if (event.target.id === 'btn-memory-game') {
           this.dispatchEvent(new MemoryGameIconClickedEvent())
+        }
+        if (event.target.id === 'btn-chat-app') {
+          this.dispatchEvent(new ChatAppIconClickedEvent())
         }
       })
     }

@@ -15,5 +15,15 @@ class MemoryGameIconClickedEvent extends CustomEvent {
   }
 }
 
+class ChatAppIconClickedEvent extends CustomEvent {
+  /**
+   * Constructs the event.
+   */
+  constructor() {
+    super('chatAppIconClicked', {
+      bubbles: true
+    })
+  }
+}
 
-export { MemoryGameIconClickedEvent }
+export { MemoryGameIconClickedEvent, ChatAppIconClickedEvent }

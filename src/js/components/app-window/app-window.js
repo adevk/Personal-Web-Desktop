@@ -133,7 +133,7 @@ customElements.define('app-window',
 
       const newTop = this.offsetTop - this.#offsetY
       const newLeft = this.offsetLeft - this.#offsetX
-      console.log(`new top: ${newTop}`)
+      //console.log(`new top: ${newTop}`)
       if (newTop > 0 && newTop < (window.innerHeight - this.getBoundingClientRect().height)) {
         this.style.top = (newTop) + "px"
       }
@@ -141,11 +141,11 @@ customElements.define('app-window',
         this.style.left = newLeft + "px"
       }
 
-      console.log('top: ' + this.style.top)
+     /*  console.log('top: ' + this.style.top)
       console.log('left: ' + this.style.left)
       const rect = this.getBoundingClientRect()
       console.log(`x: ${rect.x}, y: ${rect.y}, top: ${rect.top}, left: ${rect.left}, bottom: ${rect.bottom}, right: ${rect.right}`)
-      console.log(`Window - width: ${window.innerWidth}, height: ${window.innerHeight}`)
+      console.log(`Window - width: ${window.innerWidth}, height: ${window.innerHeight}`) */
     }
 
     #isTopCollision() {
