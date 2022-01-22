@@ -76,6 +76,9 @@ customElements.define('app-window',
     #startPosY
     #offsetX
     #offsetY
+
+    static openedInstances = []
+
     /**
      * Creates an instance of the current type.
      */
@@ -101,6 +104,14 @@ customElements.define('app-window',
       this.#startPosY = 0
       this.#offsetX = 0
       this.#offsetY = 0
+
+      AppWindow.openedInstances.push(this)
+    }
+
+    static unFocusAllApps() {
+      AppWindow.openedInstances.forEach((app) => {
+        if (app) app.removeFocus()
+      })
     }
 
     #startDragging(event) {
@@ -109,7 +120,7 @@ customElements.define('app-window',
       this.#startPosY = event.clientY
       document.onmouseup = (event) => this.#stopDragging(event)
       document.onmousemove = (event) => this.#dragWindow(event)
-      this.dispatchEvent(new ReceivedFocusEvent(this))
+      this.giveFocus()
     }
 
     #dragWindow(event) {
@@ -133,6 +144,7 @@ customElements.define('app-window',
     }
 
     giveFocus() {
+      AppWindow.unFocusAllApps()
       this.style.setProperty('z-index', 1000)
     }
 
@@ -140,7 +152,7 @@ customElements.define('app-window',
      * Called after the element is inserted into the DOM.
      */
     connectedCallback() {
-      this.addEventListener('click', () => this.dispatchEvent(new ReceivedFocusEvent(this)))
+      this.addEventListener('click', () => this.giveFocus())
       this.#topBar.onmousedown = (event) => this.#startDragging(event)
       this.#closeBtn.addEventListener('click', () => this.remove())
       document.onmouseup = (event) => this.#stopDragging(event)

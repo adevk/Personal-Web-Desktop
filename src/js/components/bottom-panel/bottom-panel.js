@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import { MemoryGameClickedEvent } from "./lib/events"
+import { MemoryGameIconClickedEvent } from "./lib/events"
 
 /**
  * Define template.
@@ -85,7 +85,7 @@ customElements.define('bottom-panel',
     connectedCallback() {
       this.shadowRoot.addEventListener('click', (event) => {
         if (event.target.id === 'btn') {
-          this.dispatchEvent(new MemoryGameClickedEvent())
+          this.dispatchEvent(new MemoryGameIconClickedEvent())
         }
       })
     }

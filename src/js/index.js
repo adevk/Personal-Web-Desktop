@@ -16,22 +16,9 @@ document.body.appendChild(BottomPanel)
 
 let activeMemoryGames = 0
 
-document.addEventListener('memoryGameClicked', () => {
+document.addEventListener('memoryGameIconClicked', () => {
   addApp()
 })
-
-document.addEventListener('receivedFocus', (event) => {
-  console.log(`receivedFocus: ${event.detail.app}`)
-  const appToReceiveFocus = event.detail.app
-  unFocusRemainingApps()
-  appToReceiveFocus.giveFocus()
-})
-
-const unFocusRemainingApps = () => {
-  liveAppInstances.forEach((app) => {
-    app.removeFocus()
-  })
-}
 
 
 const addApp = () => {
@@ -43,6 +30,7 @@ const addApp = () => {
   appWindow.shadowRoot.querySelector('.root').appendChild(memoryGame)
   document.querySelector('main').appendChild(appWindow)
   liveAppInstances.push(appWindow)
+  appWindow.giveFocus()
   activeMemoryGames++
 }
 

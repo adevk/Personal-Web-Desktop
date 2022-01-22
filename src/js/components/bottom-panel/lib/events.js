@@ -4,16 +4,16 @@
  * @class MemoryGameClicked
  * @augments {CustomEvent}
  */
-class MemoryGameClickedEvent extends CustomEvent {
+class MemoryGameIconClickedEvent extends CustomEvent {
   /**
    * Constructs the event.
    */
   constructor() {
-    super('memoryGameClicked', {
+    super('memoryGameIconClicked', {
       bubbles: true
     })
   }
 }
 
 
-export { MemoryGameClickedEvent }
+export { MemoryGameIconClickedEvent }
