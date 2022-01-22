@@ -109,7 +109,7 @@ customElements.define('app-window',
       this.#startPosY = event.clientY
       document.onmouseup = (event) => this.#stopDragging(event)
       document.onmousemove = (event) => this.#dragWindow(event)
-      //console.log(`mouse down: startPosX:${startPosX} startPosY:${startPosY} offsetX:${offsetX} offsetY:${offsetY}`)
+      this.dispatchEvent(new ReceivedFocusEvent(this))
     }
 
     #dragWindow(event) {
@@ -120,7 +120,6 @@ customElements.define('app-window',
       this.#startPosY = event.clientY
       this.style.top = (this.offsetTop - this.#offsetY) + "px";
       this.style.left = (this.offsetLeft - this.#offsetX) + "px";
-      //console.log(`mouse drag: startPosX:${startPosX} startPosY:${startPosY} offsetX:${offsetX} offsetY:${offsetY}`)
     }
 
     #stopDragging(event) {
@@ -130,14 +129,10 @@ customElements.define('app-window',
     }
 
     removeFocus() {
-      this.setAttribute('z-index', 10)
-      console.log(this + ' removeFocus')
       this.style.removeProperty('z-index')
     }
 
     giveFocus() {
-      console.log(this + ' giveFocus')
-      //this.setAttribute('z-index', 1000)
       this.style.setProperty('z-index', 1000)
     }
 
