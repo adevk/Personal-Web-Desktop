@@ -69,6 +69,8 @@ customElements.define('chat-app',
   class ChatApp extends HTMLElement {
     #btnLogin
     #btnSendMsg
+    #btnSendDelayed
+    #inputDelay
     #inputSection
     #inputForm
     #inputUsername
@@ -122,24 +124,36 @@ customElements.define('chat-app',
       this.#textarea = this.shadowRoot.querySelector('#textarea')
       this.#inputForm = this.shadowRoot.querySelector('#input-form')
       this.#btnSendMsg = this.shadowRoot.querySelector('#btn-send-msg')
-
+      this.#btnSendDelayed = this.shadowRoot.querySelector('#btn-send-delayed')
+      this.#inputDelay = this.shadowRoot.querySelector('#input-delay')
       this.#initializeMessaging()
+    }
+
+    #sendMessage() {
+      const username = localStorage.getItem('chatAppUsername')
+      const message = this.#textarea.value
+      const objToSend = {
+        "type": "message",
+        "data": message,
+        "username": username,
+        "channel": "akramstestchatt",
+        "key": "eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd"
+      }
+      const json = JSON.stringify(objToSend)
+      this.#webSocket.send(json)
     }
 
     #initializeMessaging() {
       this.#btnSendMsg.addEventListener('click', (event) => {
         event.preventDefault()
-        const username = localStorage.getItem('chatAppUsername')
-        const message = this.#textarea.value
-        const objToSend = {
-          "type": "message",
-          "data": message,
-          "username": username,
-          "channel": "akramstestchatt",
-          "key": "eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd"
-        }
-        const json = JSON.stringify(objToSend)
-        this.#webSocket.send(json)
+        this.#sendMessage()
+      })
+      this.#btnSendDelayed.addEventListener('click', (event) => {
+        event.preventDefault()
+        const secondsDelay = this.#inputDelay.value
+        setTimeout(() => {
+          this.#sendMessage()
+        }, secondsDelay * 1000)
       })
     }
 
@@ -149,6 +163,8 @@ customElements.define('chat-app',
         <div id="input-form">
           <textarea id="textarea"></textarea>
           <button id="btn-send-msg">Send</button>
+          <button id="btn-send-delayed">Send delayed</button>
+          <input id="input-delay" type="number">
         </div>
       `
       return messageFormTemplate.content.cloneNode(true)
