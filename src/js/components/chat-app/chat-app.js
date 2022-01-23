@@ -13,12 +13,54 @@
 const template = document.createElement('template')
 template.innerHTML = `
    <style>
-     :host {
-     }
-     
+      :host {
+        background-color: white;
+        display: block;
+        position: relative; /* Make positioning context for children */
+        
+        width: 400px;
+        height: 400px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      form * {
+        text-align: center;
+        margin: 2px auto;
+      }
+
+      .root {
+        width: 100%;
+        height: 100%;
+      }
+
+      .screen {
+        height: 70%;
+        border: 1px solid black;
+        margin: 2px;
+        margin-bottom: 12px;
+      }
+
+      #submit {
+
+      }
    </style>
 
-<div></div>
+<div class="root">
+  <section class="screen"></section>
+  <!-- Form which will send a POST request to the current URL -->
+  <form method="post">
+    <label>Please enter your username:
+    </label>
+    <input name="submitted-name" autocomplete="name">
+    <input id="submit" type="submit" value="Login">
+  </form>
+
+</div>
  `
 
 /**
@@ -26,15 +68,15 @@ template.innerHTML = `
  */
 customElements.define('chat-app',
   /**
-   * The main class of the chap-app component.
+   * The main class of the chat-app component.
    */
   class ChatApp extends HTMLElement {
-
+    #btnSubmit
 
     /**
      * Creates an instance of the current type.
      */
-    constructor () {
+    constructor() {
       super()
 
       // Attach a shadow DOM tree to this element and
@@ -48,14 +90,18 @@ customElements.define('chat-app',
     /**
      * Initalizes the component during construction.
      */
-    #initialize () {
+    #initialize() {
+      this.#btnSubmit = this.shadowRoot.querySelector('#submit')
     }
 
     /**
      * Called after the element is inserted into the DOM.
      */
-    connectedCallback () {
-
+    connectedCallback() {
+      this.shadowRoot.addEventListener('submit', (event) => {
+        event.preventDefault()
+        console.log('Submitted username!')
+      })
     }
   }
 )
