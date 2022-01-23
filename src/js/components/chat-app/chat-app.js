@@ -69,6 +69,7 @@ customElements.define('chat-app',
     #btnLogin
     #btnSendMsg
     #inputSection
+    #inputForm
     #inputUsername
     #textarea
     #screen
@@ -107,13 +108,16 @@ customElements.define('chat-app',
         this.#btnSendMsg = this.shadowRoot.querySelector('#btn-send-msg')
         this.#textarea = this.shadowRoot.querySelector('#textarea')
       }
+      this.#inputForm = this.shadowRoot.querySelector('#input-form')
     }
 
     #createMessageForm() {
       const messageFormTemplate = document.createElement('template')
       messageFormTemplate.innerHTML = `
+        <div id="input-form">
           <textarea id="textarea"></textarea>
           <button id="btn-send-msg">Send</button>
+        </div>
       `
       return messageFormTemplate.content.cloneNode(true)
     }
@@ -121,9 +125,11 @@ customElements.define('chat-app',
     #createLoginForm() {
       const loginFormTemplate = document.createElement('template')
       loginFormTemplate.innerHTML = `
+        <div id="input-form">
           <label>Please enter your username:</label>
           <input id="input-username" type="text">
           <button id="btn-login">Submit</button>
+        </div>
       `
       return loginFormTemplate.content.cloneNode(true)
     }
@@ -155,6 +161,12 @@ customElements.define('chat-app',
       const json = JSON.stringify(message)
       this.#webSocket.send(json)
     }
+
+    #removeChildren = (parent) => {
+      while (parent.lastChild) {
+        parent.removeChildren(parent.lastChild);
+      }
+    }
     /**
      * Called after the element is inserted into the DOM.
      */
@@ -164,8 +176,12 @@ customElements.define('chat-app',
         this.#btnLogin.addEventListener('click', (event) => {
           event.preventDefault()
           const username = this.#inputUsername.value
-          localStorage.setItem('chatAppUsername', username)
-          this.#sendLoginConfirmation()
+          if (username) {
+            localStorage.setItem('chatAppUsername', username)
+            this.#sendLoginConfirmation()
+            //this.#removeChildren(this.#inputSection)
+            this.#inputForm.remove()
+          }
         })
       }
       if (this.#btnSendMsg) {
@@ -175,7 +191,7 @@ customElements.define('chat-app',
           const message = this.#textarea.value
           const objToSend = {
             "type": "message",
-            "data": "" + message,
+            "data": message,
             "username": username,
             "channel": "akramstestchatt",
             "key": "eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd"
