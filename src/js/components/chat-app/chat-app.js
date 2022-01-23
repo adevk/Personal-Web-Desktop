@@ -97,19 +97,50 @@ customElements.define('chat-app',
       this.#screen = this.shadowRoot.querySelector('.screen')
       this.#inputSection = this.shadowRoot.querySelector('.input-section')
 
-      const username = localStorage.getItem('chatAppUsername')
-      if (!username) {
-        const loginForm = this.#createLoginForm()
-        this.#inputSection.appendChild(loginForm)
-        this.#btnLogin = this.shadowRoot.querySelector('#btn-login')
-        this.#inputUsername = this.shadowRoot.querySelector('#input-username')
+      if (!this.#isLoggedIn()) {
+        this.#createAndInitializeLoginForm()
       } else {
-        const messageForm = this.#createMessageForm()
-        this.#inputSection.appendChild(messageForm)
-        this.#btnSendMsg = this.shadowRoot.querySelector('#btn-send-msg')
-        this.#textarea = this.shadowRoot.querySelector('#textarea')
+        this.#createAndInitalizeMessageForm()
       }
+    }
+
+    #isLoggedIn() {
+      return localStorage.getItem('chatAppUsername')
+    }
+
+    #createAndInitializeLoginForm() {
+      const loginForm = this.#createLoginForm()
+      this.#inputSection.appendChild(loginForm)
+      this.#btnLogin = this.shadowRoot.querySelector('#btn-login')
+      this.#inputUsername = this.shadowRoot.querySelector('#input-username')
       this.#inputForm = this.shadowRoot.querySelector('#input-form')
+    }
+
+    #createAndInitalizeMessageForm() {
+      const messageForm = this.#createMessageForm()
+      this.#inputSection.appendChild(messageForm)
+      this.#textarea = this.shadowRoot.querySelector('#textarea')
+      this.#inputForm = this.shadowRoot.querySelector('#input-form')
+      this.#btnSendMsg = this.shadowRoot.querySelector('#btn-send-msg')
+
+      this.#initializeMessaging()
+    }
+
+    #initializeMessaging() {
+      this.#btnSendMsg.addEventListener('click', (event) => {
+        event.preventDefault()
+        const username = localStorage.getItem('chatAppUsername')
+        const message = this.#textarea.value
+        const objToSend = {
+          "type": "message",
+          "data": message,
+          "username": username,
+          "channel": "akramstestchatt",
+          "key": "eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd"
+        }
+        const json = JSON.stringify(objToSend)
+        this.#webSocket.send(json)
+      })
     }
 
     #createMessageForm() {
@@ -163,56 +194,29 @@ customElements.define('chat-app',
       this.#webSocket.send(json)
     }
 
+    #loginUser(username) {
+      localStorage.setItem('chatAppUsername', username)
+      this.#sendLoginConfirmation()
+    }
+
+    #removePreviousInputForm() {
+      this.#inputForm.remove()
+    }
 
     /**
      * Called after the element is inserted into the DOM.
      */
     connectedCallback() {
       this.#startWebSocket()
-      if (this.#btnLogin) {
+      if (!this.#isLoggedIn()) {
         this.#btnLogin.addEventListener('click', (event) => {
           event.preventDefault()
           const username = this.#inputUsername.value
           if (username) {
-            localStorage.setItem('chatAppUsername', username)
-            this.#sendLoginConfirmation()
-            //this.#removeChildren(this.#inputSection)
-            this.#inputForm.remove()
-            const messageForm = this.#createMessageForm()
-            this.#inputSection.appendChild(messageForm)
-            this.#btnSendMsg = this.shadowRoot.querySelector('#btn-send-msg')
-            this.#textarea = this.shadowRoot.querySelector('#textarea')
-            this.#btnSendMsg.addEventListener('click', (event) => {
-              event.preventDefault()
-              const username = localStorage.getItem('chatAppUsername')
-              const message = this.#textarea.value
-              const objToSend = {
-                "type": "message",
-                "data": message,
-                "username": username,
-                "channel": "akramstestchatt",
-                "key": "eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd"
-              }
-              const json = JSON.stringify(objToSend)
-              this.#webSocket.send(json)
-            })
+            this.#loginUser(username)
+            this.#removePreviousInputForm()
+            this.#createAndInitalizeMessageForm()
           }
-        })
-      }
-      if (this.#btnSendMsg) {
-        this.#btnSendMsg.addEventListener('click', (event) => {
-          event.preventDefault()
-          const username = localStorage.getItem('chatAppUsername')
-          const message = this.#textarea.value
-          const objToSend = {
-            "type": "message",
-            "data": message,
-            "username": username,
-            "channel": "akramstestchatt",
-            "key": "eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd"
-          }
-          const json = JSON.stringify(objToSend)
-          this.#webSocket.send(json)
         })
       }
     }
