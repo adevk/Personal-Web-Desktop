@@ -64,7 +64,8 @@ customElements.define('chat-app',
    * The main class of the chat-app component.
    */
   class ChatApp extends HTMLElement {
-    #btnSubmit
+    #btnLogin
+    #btnSendMsg
     #inputSection
     #inputUsername
     #screen
@@ -88,7 +89,6 @@ customElements.define('chat-app',
      * Initalizes the component during construction.
      */
     #initialize() {
-      this.#btnSubmit = this.shadowRoot.querySelector('#btn-submit')
       this.#screen = this.shadowRoot.querySelector('.screen')
       this.#inputSection = this.shadowRoot.querySelector('.input-section')
 
@@ -96,6 +96,7 @@ customElements.define('chat-app',
       if (!username) {
         const loginForm = this.#createLoginForm()
         this.#inputSection.appendChild(loginForm)
+        this.#btnLogin = this.shadowRoot.querySelector('#btn-login')
         this.#inputUsername = this.shadowRoot.querySelector('#input-username')
       } else {
         //this.#sendLoginConfirmation()
@@ -107,7 +108,8 @@ customElements.define('chat-app',
       messageFormTemplate.innerHTML = `
         <form method="post">
           <label>Please enter your username:</label>
-          <input id="input-username" name="submitted-name" autocomplete="name" type="text">
+          <textarea id="story" name="story"
+          rows="5" cols="33">
           <input id="btnSubmit" type="submit" value="Login">
         </form>
       `
@@ -117,11 +119,9 @@ customElements.define('chat-app',
     #createLoginForm() {
       const loginFormTemplate = document.createElement('template')
       loginFormTemplate.innerHTML = `
-        <form method="post">
           <label>Please enter your username:</label>
-          <input id="input-username" name="submitted-name" autocomplete="name" type="text">
-          <input id="btnSubmit" type="submit" value="Login">
-        </form>
+          <input id="input-username" type="text">
+          <button id="btn-login">Submit</button>
       `
       return loginFormTemplate.content.cloneNode(true)
     }
@@ -158,12 +158,14 @@ customElements.define('chat-app',
      */
     connectedCallback() {
       this.#startWebSocket()
-      this.shadowRoot.addEventListener('submit', (event) => {
-        event.preventDefault()
-        const username = this.#inputUsername.value
-        localStorage.setItem('chatAppUsername', username)
-        this.#sendLoginConfirmation()
-      })
+      if (this.#btnLogin) {
+        this.#btnLogin.addEventListener('click', (event) => {
+          event.preventDefault()
+          const username = this.#inputUsername.value
+          localStorage.setItem('chatAppUsername', username)
+          this.#sendLoginConfirmation()
+        })
+      }
     }
   }
 )
