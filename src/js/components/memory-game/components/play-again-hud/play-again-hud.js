@@ -41,7 +41,7 @@ template.innerHTML = `
       text-align: center;
     }
 
-    #attempts-label {
+    label {
       font-size: 16px;
     }
 
@@ -63,6 +63,7 @@ template.innerHTML = `
     <span id="play-again-label">Game Over</span>
     <button id="btn-play-again">Play again?</button>
     <span id="attempts-label"></span>
+    <span id="play-time-label"></span>
   </div>
   `
 
@@ -76,10 +77,11 @@ customElements.define('play-again-hud',
   class PlayAgainHud extends HTMLElement {
     #playAgainButton
     #attempts = 0
+    #playTime = 0
     /**
      * Creates an instance of the current type.
      */
-    constructor () {
+    constructor() {
       super()
 
       // Attach a shadow DOM tree to this element and
@@ -93,7 +95,7 @@ customElements.define('play-again-hud',
     /**
      * Initalizes the component during construction.
      */
-    #initialize () {
+    #initialize() {
       this.#playAgainButton = this.shadowRoot.querySelector('#btn-play-again')
     }
 
@@ -102,14 +104,14 @@ customElements.define('play-again-hud',
      *
      * @returns {string[]} A string array of attributes to monitor.
      */
-    static get observedAttributes () {
-      return ['attempts']
+    static get observedAttributes() {
+      return ['attempts', 'play-time']
     }
 
     /**
      * Called after the element is inserted into the DOM.
      */
-    connectedCallback () {
+    connectedCallback() {
       this.#playAgainButton.addEventListener('click', (event) => {
         this.dispatchEvent(new PlayAgainEvent())
       })
@@ -122,11 +124,16 @@ customElements.define('play-again-hud',
      * @param {*} oldValue - The old value.
      * @param {*} newValue - The new value.
      */
-    attributeChangedCallback (name, oldValue, newValue) {
+    attributeChangedCallback(name, oldValue, newValue) {
       if (name === 'attempts') {
         this.#attempts = newValue
         const attemptsLabel = this.shadowRoot.querySelector('#attempts-label')
         attemptsLabel.textContent = `Total attempts: ${this.#attempts}`
+      }
+      if (name === 'play-time') {
+        this.#playTime = newValue
+        const playTimeLabel = this.shadowRoot.querySelector('#play-time-label')
+        playTimeLabel.textContent = `Total play time: ${this.#playTime} seconds`
       }
     }
   }
