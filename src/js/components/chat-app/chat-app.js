@@ -162,11 +162,7 @@ customElements.define('chat-app',
       this.#webSocket.send(json)
     }
 
-    #removeChildren = (parent) => {
-      while (parent.lastChild) {
-        parent.removeChildren(parent.lastChild);
-      }
-    }
+
     /**
      * Called after the element is inserted into the DOM.
      */
@@ -181,6 +177,24 @@ customElements.define('chat-app',
             this.#sendLoginConfirmation()
             //this.#removeChildren(this.#inputSection)
             this.#inputForm.remove()
+            const messageForm = this.#createMessageForm()
+            this.#inputSection.appendChild(messageForm)
+            this.#btnSendMsg = this.shadowRoot.querySelector('#btn-send-msg')
+            this.#textarea = this.shadowRoot.querySelector('#textarea')
+            this.#btnSendMsg.addEventListener('click', (event) => {
+              event.preventDefault()
+              const username = localStorage.getItem('chatAppUsername')
+              const message = this.#textarea.value
+              const objToSend = {
+                "type": "message",
+                "data": message,
+                "username": username,
+                "channel": "akramstestchatt",
+                "key": "eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd"
+              }
+              const json = JSON.stringify(objToSend)
+              this.#webSocket.send(json)
+            })
           }
         })
       }
