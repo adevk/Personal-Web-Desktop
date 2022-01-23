@@ -22,13 +22,14 @@ template.innerHTML = `
         height: 400px;
       }
 
-      form {
+      .input-section {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        margin: 2px;
       }
 
-      form * {
+      .input-section * {
         text-align: center;
         margin: 2px auto;
       }
@@ -46,8 +47,9 @@ template.innerHTML = `
         height: 70%;
       }
 
-      #submit {
-
+      textarea {
+        width: 100%;
+        height: 100%;
       }
    </style>
 
@@ -68,6 +70,7 @@ customElements.define('chat-app',
     #btnSendMsg
     #inputSection
     #inputUsername
+    #textarea
     #screen
     #webSocket
 
@@ -99,19 +102,18 @@ customElements.define('chat-app',
         this.#btnLogin = this.shadowRoot.querySelector('#btn-login')
         this.#inputUsername = this.shadowRoot.querySelector('#input-username')
       } else {
-        //this.#sendLoginConfirmation()
+        const messageForm = this.#createMessageForm()
+        this.#inputSection.appendChild(messageForm)
+        this.#btnSendMsg = this.shadowRoot.querySelector('#btn-send-msg')
+        this.#textarea = this.shadowRoot.querySelector('#textarea')
       }
     }
 
     #createMessageForm() {
       const messageFormTemplate = document.createElement('template')
       messageFormTemplate.innerHTML = `
-        <form method="post">
-          <label>Please enter your username:</label>
-          <textarea id="story" name="story"
-          rows="5" cols="33">
-          <input id="btnSubmit" type="submit" value="Login">
-        </form>
+          <textarea id="textarea"></textarea>
+          <button id="btn-send-msg">Send</button>
       `
       return messageFormTemplate.content.cloneNode(true)
     }
@@ -164,6 +166,22 @@ customElements.define('chat-app',
           const username = this.#inputUsername.value
           localStorage.setItem('chatAppUsername', username)
           this.#sendLoginConfirmation()
+        })
+      }
+      if (this.#btnSendMsg) {
+        this.#btnSendMsg.addEventListener('click', (event) => {
+          event.preventDefault()
+          const username = localStorage.getItem('chatAppUsername')
+          const message = this.#textarea.value
+          const objToSend = {
+            "type": "message",
+            "data": "" + message,
+            "username": username,
+            "channel": "akramstestchatt",
+            "key": "eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd"
+          }
+          const json = JSON.stringify(objToSend)
+          this.#webSocket.send(json)
         })
       }
     }
