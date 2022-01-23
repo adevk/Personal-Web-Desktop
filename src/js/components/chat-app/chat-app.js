@@ -43,6 +43,7 @@ template.innerHTML = `
         border: 1px solid black;
         margin: 2px;
         margin-bottom: 12px;
+        overflow: scroll;
         padding: 6px;
         height: 70%;
       }
