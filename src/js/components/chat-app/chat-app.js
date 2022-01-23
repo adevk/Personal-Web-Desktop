@@ -39,10 +39,11 @@ template.innerHTML = `
       }
 
       .screen {
-        height: 70%;
         border: 1px solid black;
         margin: 2px;
         margin-bottom: 12px;
+        padding: 6px;
+        height: 70%;
       }
 
       #submit {
@@ -52,17 +53,9 @@ template.innerHTML = `
 
 <div class="root">
   <section class="screen"></section>
-  <!-- Form which will send a POST request to the current URL -->
-  <form method="post">
-    <label>Please enter your username:
-    </label>
-    <input name="submitted-name" autocomplete="name">
-    <input id="btnSubmit" type="submit" value="Login">
-  </form>
-
+  <section class="input-section"></section>
 </div>
  `
-
 /**
  * Define custom element.
  */
@@ -72,7 +65,10 @@ customElements.define('chat-app',
    */
   class ChatApp extends HTMLElement {
     #btnSubmit
+    #inputSection
+    #inputUsername
     #screen
+    #webSocket
 
     /**
      * Creates an instance of the current type.
@@ -92,22 +88,41 @@ customElements.define('chat-app',
      * Initalizes the component during construction.
      */
     #initialize() {
-      this.#btnSubmit = this.shadowRoot.querySelector('#btnSubmit')
+      this.#btnSubmit = this.shadowRoot.querySelector('#btn-submit')
       this.#screen = this.shadowRoot.querySelector('.screen')
-      //this.#startWebSocket()
+      this.#inputSection = this.shadowRoot.querySelector('.input-section')
+      if (!localStorage.getItem('chatAppUsername')) {
+        const loginForm = this.#createLoginForm()
+        this.#inputSection.appendChild(loginForm)
+        this.#inputUsername = this.shadowRoot.querySelector('#input-username')
+      }
+    }
+
+    #createLoginForm() {
+      const loginFormTemplate = document.createElement('template')
+      loginFormTemplate.innerHTML = `
+        <form method="post">
+          <label>Please enter your username:</label>
+          <input id="input-username" name="submitted-name" autocomplete="name" type="text">
+          <input id="btnSubmit" type="submit" value="Login">
+        </form>
+      `
+      return loginFormTemplate.content.cloneNode(true)
     }
 
     #startWebSocket() {
-      const socket = new WebSocket('wss://courselab.lnu.se/message-app/socket')
-      socket.addEventListener('open', (event) => {
+      this.#webSocket = new WebSocket('wss://courselab.lnu.se/message-app/socket')
+      this.#webSocket.addEventListener('open', (event) => {
         console.log('Socket open!')
       })
-      socket.addEventListener('message', (event) => {
+      this.#webSocket.addEventListener('message', (event) => {
         const serverPacket = JSON.parse(event.data)
-        if (serverPacket.type == 'notification') {
+        if (serverPacket.type == 'notification' || serverPacket.type == 'message') {
           console.log(`${serverPacket.username}: ${serverPacket.data}`)
+          const msgElement = document.createElement('p')
+          msgElement.textContent = `${serverPacket.username}: ${serverPacket.data}`
+          this.#screen.appendChild(msgElement)
         }
-        //console.log('Message from server ', serverPacket);
       })
     }
 
@@ -118,17 +133,18 @@ customElements.define('chat-app',
       this.#startWebSocket()
       this.shadowRoot.addEventListener('submit', (event) => {
         event.preventDefault()
-        console.log('Submitted username!')
+        const username = this.#inputUsername.value
         const message = {
           "type": "message",
-          "data": "Ake logged in",
-          "username": "Ake",
+          "data": "You are logged in! Start chatting...",
+          "username": "The Chat",
           "channel": "akramstestchatt",
           "key": "eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd"
         }
 
-        json = JSON.stringify(message)
-        socket.send(json);
+        localStorage.setItem('chatAppUsername', username)
+        const json = JSON.stringify(message)
+        this.#webSocket.send(json);
       })
     }
   }
