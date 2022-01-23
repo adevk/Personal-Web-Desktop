@@ -91,11 +91,27 @@ customElements.define('chat-app',
       this.#btnSubmit = this.shadowRoot.querySelector('#btn-submit')
       this.#screen = this.shadowRoot.querySelector('.screen')
       this.#inputSection = this.shadowRoot.querySelector('.input-section')
-      if (!localStorage.getItem('chatAppUsername')) {
+
+      const username = localStorage.getItem('chatAppUsername')
+      if (!username) {
         const loginForm = this.#createLoginForm()
         this.#inputSection.appendChild(loginForm)
         this.#inputUsername = this.shadowRoot.querySelector('#input-username')
+      } else {
+        //this.#sendLoginConfirmation()
       }
+    }
+
+    #createMessageForm() {
+      const messageFormTemplate = document.createElement('template')
+      messageFormTemplate.innerHTML = `
+        <form method="post">
+          <label>Please enter your username:</label>
+          <input id="input-username" name="submitted-name" autocomplete="name" type="text">
+          <input id="btnSubmit" type="submit" value="Login">
+        </form>
+      `
+      return messageFormTemplate.content.cloneNode(true)
     }
 
     #createLoginForm() {
@@ -126,6 +142,17 @@ customElements.define('chat-app',
       })
     }
 
+    #sendLoginConfirmation() {
+      const message = {
+        "type": "message",
+        "data": "You are logged in! Start chatting...",
+        "username": "The Chat",
+        "channel": "akramstestchatt",
+        "key": "eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd"
+      }
+      const json = JSON.stringify(message)
+      this.#webSocket.send(json)
+    }
     /**
      * Called after the element is inserted into the DOM.
      */
@@ -134,17 +161,8 @@ customElements.define('chat-app',
       this.shadowRoot.addEventListener('submit', (event) => {
         event.preventDefault()
         const username = this.#inputUsername.value
-        const message = {
-          "type": "message",
-          "data": "You are logged in! Start chatting...",
-          "username": "The Chat",
-          "channel": "akramstestchatt",
-          "key": "eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd"
-        }
-
         localStorage.setItem('chatAppUsername', username)
-        const json = JSON.stringify(message)
-        this.#webSocket.send(json);
+        this.#sendLoginConfirmation()
       })
     }
   }
