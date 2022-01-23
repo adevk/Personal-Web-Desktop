@@ -57,7 +57,7 @@ template.innerHTML = `
     <label>Please enter your username:
     </label>
     <input name="submitted-name" autocomplete="name">
-    <input id="submit" type="submit" value="Login">
+    <input id="btnSubmit" type="submit" value="Login">
   </form>
 
 </div>
@@ -72,6 +72,7 @@ customElements.define('chat-app',
    */
   class ChatApp extends HTMLElement {
     #btnSubmit
+    #screen
 
     /**
      * Creates an instance of the current type.
@@ -91,16 +92,43 @@ customElements.define('chat-app',
      * Initalizes the component during construction.
      */
     #initialize() {
-      this.#btnSubmit = this.shadowRoot.querySelector('#submit')
+      this.#btnSubmit = this.shadowRoot.querySelector('#btnSubmit')
+      this.#screen = this.shadowRoot.querySelector('.screen')
+      //this.#startWebSocket()
+    }
+
+    #startWebSocket() {
+      const socket = new WebSocket('wss://courselab.lnu.se/message-app/socket')
+      socket.addEventListener('open', (event) => {
+        console.log('Socket open!')
+      })
+      socket.addEventListener('message', (event) => {
+        const serverPacket = JSON.parse(event.data)
+        if (serverPacket.type == 'notification') {
+          console.log(`${serverPacket.username}: ${serverPacket.data}`)
+        }
+        //console.log('Message from server ', serverPacket);
+      })
     }
 
     /**
      * Called after the element is inserted into the DOM.
      */
     connectedCallback() {
+      this.#startWebSocket()
       this.shadowRoot.addEventListener('submit', (event) => {
         event.preventDefault()
         console.log('Submitted username!')
+        const message = {
+          "type": "message",
+          "data": "Ake logged in",
+          "username": "Ake",
+          "channel": "akramstestchatt",
+          "key": "eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd"
+        }
+
+        json = JSON.stringify(message)
+        socket.send(json);
       })
     }
   }
