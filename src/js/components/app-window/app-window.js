@@ -42,7 +42,7 @@ template.innerHTML = `
       padding: 2px 6px;
     }
 
-    .close-btn {
+    .btn-close {
       padding: 5px;
       width: 20px;
       height: 20px;
@@ -54,7 +54,7 @@ template.innerHTML = `
 
   </style>
   <div class="top-bar">
-    <button class="close-btn"></button>
+    <button class="btn-close"></button>
   </div>
   <div class="root"></div>
   `
@@ -67,7 +67,7 @@ customElements.define('app-window',
    * The app-window component.
    */
   class AppWindow extends HTMLElement {
-    #closeBtn
+    #btnClose
     #topBar
 
     #startPosX
@@ -95,7 +95,7 @@ customElements.define('app-window',
      * Initalizes the component during construction.
      */
     #initialize() {
-      this.#closeBtn = this.shadowRoot.querySelector('.close-btn')
+      this.#btnClose = this.shadowRoot.querySelector('.btn-close')
       this.#topBar = this.shadowRoot.querySelector('.top-bar')
 
       this.#startPosX = 0
@@ -107,11 +107,13 @@ customElements.define('app-window',
     }
 
     /**
-     *
+     * Removes focus from all opened instances of the app.
      */
     static unFocusAllApps() {
       AppWindow.openedInstances.forEach((app) => {
-        if (app) app.removeFocus()
+        if (app) { 
+          app.#removeFocus() 
+        }
       })
     }
 
@@ -130,7 +132,7 @@ customElements.define('app-window',
        * @param event
        */
       document.onmousemove = (event) => this.#dragWindow(event)
-      this.giveFocus()
+      this.#giveFocus()
     }
 
     /**
@@ -162,15 +164,6 @@ customElements.define('app-window',
     }
 
     /**
-     *
-     */
-    #isTopCollision() {
-      const top = Number(this.style.top.match(/\d+/)[0])
-      console.log('top: ' + top)
-      if (top === 0) { return true }
-    }
-
-    /**
      * @param event
      */
     #stopDragging(event) {
@@ -180,16 +173,16 @@ customElements.define('app-window',
     }
 
     /**
-     *
+     * Removes focus from the instance.
      */
-    removeFocus() {
+    #removeFocus() {
       this.style.removeProperty('z-index')
     }
 
     /**
-     *
+     * Gives focus (puts on top of other) to the instance.
      */
-    giveFocus() {
+    #giveFocus() {
       AppWindow.unFocusAllApps()
       this.style.setProperty('z-index', 1000)
     }
@@ -198,16 +191,17 @@ customElements.define('app-window',
      * Called after the element is inserted into the DOM.
      */
     connectedCallback() {
-      this.addEventListener('click', () => this.giveFocus())
+      this.addEventListener('click', () => this.#giveFocus())
       /**
        * @param event
        */
       this.#topBar.onmousedown = (event) => this.#startDragging(event)
-      this.#closeBtn.addEventListener('click', () => this.remove())
+      this.#btnClose.addEventListener('click', () => this.remove())
       /**
        * @param event
        */
       document.onmouseup = (event) => this.#stopDragging(event)
+      this.#giveFocus()
     }
   }
 )

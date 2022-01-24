@@ -44,7 +44,6 @@ const addChatApp = () => {
   appWindow.shadowRoot.querySelector('.root').appendChild(chatApp)
   document.querySelector('main').appendChild(appWindow)
   liveAppInstances.push(appWindow)
-  appWindow.giveFocus()
   activeChatApps++
 }
 
@@ -60,7 +59,6 @@ const addMemoryApp = () => {
   appWindow.shadowRoot.querySelector('.root').appendChild(memoryGame)
   document.querySelector('main').appendChild(appWindow)
   liveAppInstances.push(appWindow)
-  appWindow.giveFocus()
   activeMemoryGames++
 }
 
@@ -76,7 +74,6 @@ const addTranslatorApp = () => {
   appWindow.shadowRoot.querySelector('.root').appendChild(translatorApp)
   document.querySelector('main').appendChild(appWindow)
   liveAppInstances.push(appWindow)
-  appWindow.giveFocus()
   activeTranslatorApps++
 }
 
