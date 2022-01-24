@@ -18,43 +18,37 @@ template.innerHTML = `
         position: relative; /* Make positioning context for children */
         
         width: 400px;
-        height: 400px;
-      }
-
-     /*  .input-section {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        margin: 2px;
-      }
-
-      .input-section * {
-        text-align: center;
-        margin: 2px auto;
       }
 
       .root {
+        display: flex;
+        flex-direction: column;
+
         width: 100%;
         height: 100%;
       }
 
-      .screen {
+      .root * {
+        margin: 5px;
+      }
+
+      p {
         border: 1px solid black;
-        margin: 2px;
-        margin-bottom: 12px;
-        overflow: scroll;
-        padding: 6px;
-        height: 70%;
+        height: 100px;
       }
 
       textarea {
-        width: 100%;
-        height: 100%;
-      } */
+        height: 100px;
+      }
+
    </style>
 
 <div class="root">
-
+  <span>English text:</span>
+  <textarea></textarea>
+  <button>Translate</button>
+  <span>Swedish translation:</span>
+  <p></p>
 </div>
  `
 /**
