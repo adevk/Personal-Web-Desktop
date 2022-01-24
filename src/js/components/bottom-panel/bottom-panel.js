@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import { MemoryGameIconClickedEvent, ChatAppIconClickedEvent } from "./lib/events"
+import { MemoryGameIconClickedEvent, ChatAppIconClickedEvent, TranslatorAppIconClickedEvent } from "./lib/events"
 
 /**
  * Define template.
@@ -49,6 +49,7 @@ template.innerHTML = `
   <div class="root">
     <button id="btn-memory-game">M</button>
     <button id="btn-chat-app">C</button>
+    <button id="btn-translator-app">T</button>
   </div>
   `
 
@@ -60,7 +61,6 @@ customElements.define('bottom-panel',
    * The bottom-panel component.
    */
   class BottomPanel extends HTMLElement {
-    #btn
     /**
      * Creates an instance of the current type.
      */
@@ -79,7 +79,6 @@ customElements.define('bottom-panel',
      * Initalizes the component during construction.
      */
     #initialize() {
-      this.#btn = document.querySelector('#btn')
     }
 
     /**
@@ -92,6 +91,9 @@ customElements.define('bottom-panel',
         }
         if (event.target.id === 'btn-chat-app') {
           this.dispatchEvent(new ChatAppIconClickedEvent())
+        }
+        if (event.target.id === 'btn-translator-app') {
+          this.dispatchEvent(new TranslatorAppIconClickedEvent())
         }
       })
     }
