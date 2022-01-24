@@ -1,15 +1,15 @@
-# &lt;chat-app&gt;
-A chat-app web component.
+# &lt;translator-app&gt;
+A translator-app web component.
 
 ## Example
 ### HTML
 ```html
    <body>
-      <chat-app></chat-app>
+      <translator-app></translator-app>
    </body>
 ```
 ### Javascript
 ```javascript
-    const chatApp = document.createElement('chat-app')
-    document.body.appendChild(chatApp)
+    const translatorApp = document.createElement('translator-app')
+    document.body.appendChild(translatorApp)
 ```
