@@ -5,6 +5,8 @@
  * @version 1.0.0
  */
 
+import axios from "axios"
+import qs from "qs"
 
 /**
  * Define template.
@@ -45,10 +47,10 @@ template.innerHTML = `
 
 <div class="root">
   <span>English text:</span>
-  <textarea></textarea>
+  <textarea id="input"></textarea>
   <button>Translate</button>
   <span>Swedish translation:</span>
-  <p></p>
+  <p id="output"></p>
 </div>
  `
 /**
@@ -59,6 +61,9 @@ customElements.define('translator-app',
    * The main class of the chat-app component.
    */
   class TranslatorApp extends HTMLElement {
+    #btnTranslate
+    #engInput
+    #sweOutput
 
     /**
      * Creates an instance of the current type.
@@ -78,15 +83,38 @@ customElements.define('translator-app',
      * Initalizes the component during construction.
      */
     #initialize() {
+      this.#btnTranslate = this.shadowRoot.querySelector('button')
+      this.#engInput = this.shadowRoot.querySelector('#input')
+      this.#sweOutput = this.shadowRoot.querySelector('#output')
     }
 
-  
+
 
     /**
      * Called after the element is inserted into the DOM.
      */
     connectedCallback() {
+      this.#btnTranslate.addEventListener('click', () => {
+        const input = this.#engInput.value
 
+        const options = {
+          method: 'POST',
+          url: 'https://google-translate1.p.rapidapi.com/language/translate/v2',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'x-rapidapi-host': 'google-translate1.p.rapidapi.com',
+            'x-rapidapi-key': '8b7fc66c22msh413c2e12dfa0e26p19983ajsn1c1c02bfce74'
+          },
+          data: qs.stringify({ source: 'en', target: 'sv', q: input })
+        }
+
+        axios.request(options).then( (response) => {
+          const translation = response.data.data.translations[0].translatedText
+          this.#sweOutput.textContent = translation
+        }).catch(function (error) {
+          console.error(error)
+        })
+      })
     }
   }
 )
