@@ -107,14 +107,16 @@ customElements.define('chat-app',
     }
 
     /**
+     * Checks if user is logged in.
      *
+     * @returns {string} The username (truthful value) if logged in.
      */
     #isLoggedIn () {
       return localStorage.getItem('chatAppUsername')
     }
 
     /**
-     *
+     * Creates and initializes the login form.
      */
     #createAndInitializeLoginForm () {
       const loginForm = this.#createLoginForm()
@@ -125,7 +127,7 @@ customElements.define('chat-app',
     }
 
     /**
-     *
+     * Creates and initalizes the messaging form.
      */
     #createAndInitalizeMessageForm () {
       const messageForm = this.#createMessageForm()
@@ -139,7 +141,7 @@ customElements.define('chat-app',
     }
 
     /**
-     *
+     * Sends the inputted message to the websocket server.
      */
     #sendMessage () {
       const username = localStorage.getItem('chatAppUsername')
@@ -156,7 +158,7 @@ customElements.define('chat-app',
     }
 
     /**
-     *
+     * Initializes messaging functionality.
      */
     #initializeMessaging () {
       this.#btnSendMsg.addEventListener('click', (event) => {
@@ -173,7 +175,9 @@ customElements.define('chat-app',
     }
 
     /**
+     * Creates form for messaging.
      *
+     * @returns {HTMLElement} The messaging form.
      */
     #createMessageForm () {
       const messageFormTemplate = document.createElement('template')
@@ -189,7 +193,9 @@ customElements.define('chat-app',
     }
 
     /**
+     * Creates login form.
      *
+     * @returns {HTMLElement} The login form.
      */
     #createLoginForm () {
       const loginFormTemplate = document.createElement('template')
@@ -204,7 +210,7 @@ customElements.define('chat-app',
     }
 
     /**
-     *
+     * Starts up the websocket connection.
      */
     #startWebSocket () {
       this.#webSocket = new WebSocket('wss://courselab.lnu.se/message-app/socket')
@@ -213,8 +219,7 @@ customElements.define('chat-app',
       })
       this.#webSocket.addEventListener('message', (event) => {
         const serverPacket = JSON.parse(event.data)
-        if (serverPacket.type == 'notification' || serverPacket.type == 'message') {
-          console.log(`${serverPacket.username}: ${serverPacket.data}`)
+        if (serverPacket.type === 'notification' || serverPacket.type === 'message') {
           const msgElement = document.createElement('p')
           msgElement.textContent = `${serverPacket.username}: ${serverPacket.data}`
           this.#screen.appendChild(msgElement)
@@ -223,7 +228,7 @@ customElements.define('chat-app',
     }
 
     /**
-     *
+     * Sends confirmation message at succesful login.
      */
     #sendLoginConfirmation () {
       const message = {
@@ -238,7 +243,9 @@ customElements.define('chat-app',
     }
 
     /**
-     * @param username
+     * Logs in user.
+     *
+     * @param {string} username - The username of the user.
      */
     #loginUser (username) {
       localStorage.setItem('chatAppUsername', username)
@@ -246,7 +253,7 @@ customElements.define('chat-app',
     }
 
     /**
-     *
+     * Removes the current input form.
      */
     #removePreviousInputForm () {
       this.#inputForm.remove()

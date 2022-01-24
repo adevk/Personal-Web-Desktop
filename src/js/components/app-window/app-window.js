@@ -180,7 +180,7 @@ customElements.define('app-window',
     /**
      * Removes focus from all opened instances of the app.
      */
-     static unFocusAllApps () {
+    static unFocusAllApps () {
       AppWindow.openedInstances.forEach((app) => {
         if (app) {
           app.#removeFocus()
