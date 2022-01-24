@@ -5,8 +5,8 @@
  * @version 1.0.0
  */
 
-import axios from "axios"
-import qs from "qs"
+import axios from 'axios'
+import qs from 'qs'
 
 /**
  * Define template.
@@ -68,7 +68,7 @@ customElements.define('translator-app',
     /**
      * Creates an instance of the current type.
      */
-    constructor() {
+    constructor () {
       super()
 
       // Attach a shadow DOM tree to this element and
@@ -82,18 +82,16 @@ customElements.define('translator-app',
     /**
      * Initalizes the component during construction.
      */
-    #initialize() {
+    #initialize () {
       this.#btnTranslate = this.shadowRoot.querySelector('button')
       this.#engInput = this.shadowRoot.querySelector('#input')
       this.#sweOutput = this.shadowRoot.querySelector('#output')
     }
 
-
-
     /**
      * Called after the element is inserted into the DOM.
      */
-    connectedCallback() {
+    connectedCallback () {
       this.#btnTranslate.addEventListener('click', () => {
         const input = this.#engInput.value
 
@@ -108,7 +106,7 @@ customElements.define('translator-app',
           data: qs.stringify({ source: 'en', target: 'sv', q: input })
         }
 
-        axios.request(options).then( (response) => {
+        axios.request(options).then((response) => {
           const translation = response.data.data.translations[0].translatedText
           this.#sweOutput.textContent = translation
         }).catch(function (error) {

@@ -5,8 +5,6 @@
  * @version 1.0.0
  */
 
-import { ReceivedFocusEvent } from "./lib/events"
-
 const BTN_ICON_URL = new URL('images/cross_scaled.png', import.meta.url).href
 
 /**
@@ -66,7 +64,7 @@ template.innerHTML = `
  */
 customElements.define('app-window',
   /**
-   * The bottom-panel component.
+   * The app-window component.
    */
   class AppWindow extends HTMLElement {
     #closeBtn
@@ -108,21 +106,36 @@ customElements.define('app-window',
       AppWindow.openedInstances.push(this)
     }
 
+    /**
+     *
+     */
     static unFocusAllApps() {
       AppWindow.openedInstances.forEach((app) => {
         if (app) app.removeFocus()
       })
     }
 
+    /**
+     * @param event
+     */
     #startDragging(event) {
       event.preventDefault()
       this.#startPosX = event.clientX
       this.#startPosY = event.clientY
+      /**
+       * @param event
+       */
       document.onmouseup = (event) => this.#stopDragging(event)
+      /**
+       * @param event
+       */
       document.onmousemove = (event) => this.#dragWindow(event)
       this.giveFocus()
     }
 
+    /**
+     * @param event
+     */
     #dragWindow(event) {
       event.preventDefault()
 
@@ -133,38 +146,49 @@ customElements.define('app-window',
 
       const newTop = this.offsetTop - this.#offsetY
       const newLeft = this.offsetLeft - this.#offsetX
-      //console.log(`new top: ${newTop}`)
+      // console.log(`new top: ${newTop}`)
       if (newTop > 0 && newTop < (window.innerHeight - this.getBoundingClientRect().height)) {
-        this.style.top = (newTop) + "px"
+        this.style.top = (newTop) + 'px'
       }
       if (newLeft > 0 && newLeft < (window.innerWidth - this.getBoundingClientRect().width)) {
-        this.style.left = newLeft + "px"
+        this.style.left = newLeft + 'px'
       }
 
-     /*  console.log('top: ' + this.style.top)
+      /*  console.log('top: ' + this.style.top)
       console.log('left: ' + this.style.left)
       const rect = this.getBoundingClientRect()
       console.log(`x: ${rect.x}, y: ${rect.y}, top: ${rect.top}, left: ${rect.left}, bottom: ${rect.bottom}, right: ${rect.right}`)
       console.log(`Window - width: ${window.innerWidth}, height: ${window.innerHeight}`) */
     }
 
+    /**
+     *
+     */
     #isTopCollision() {
       const top = Number(this.style.top.match(/\d+/)[0])
       console.log('top: ' + top)
-      if (top === 0)
-        return true
+      if (top === 0) { return true }
     }
 
+    /**
+     * @param event
+     */
     #stopDragging(event) {
       event.preventDefault()
       document.onmousemove = null
       document.onmouseup = null
     }
 
+    /**
+     *
+     */
     removeFocus() {
       this.style.removeProperty('z-index')
     }
 
+    /**
+     *
+     */
     giveFocus() {
       AppWindow.unFocusAllApps()
       this.style.setProperty('z-index', 1000)
@@ -175,8 +199,14 @@ customElements.define('app-window',
      */
     connectedCallback() {
       this.addEventListener('click', () => this.giveFocus())
+      /**
+       * @param event
+       */
       this.#topBar.onmousedown = (event) => this.#startDragging(event)
       this.#closeBtn.addEventListener('click', () => this.remove())
+      /**
+       * @param event
+       */
       document.onmouseup = (event) => this.#stopDragging(event)
     }
   }

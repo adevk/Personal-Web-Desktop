@@ -80,7 +80,7 @@ customElements.define('memory-game',
     /**
      * Creates an instance of the current type.
      */
-    constructor() {
+    constructor () {
       super()
 
       // Attach a shadow DOM tree to this element and
@@ -94,7 +94,7 @@ customElements.define('memory-game',
     /**
      * Initalizes the component during construction.
      */
-    #initialize() {
+    #initialize () {
       this.#generator = new CardsGenerator()
       this.#board = this.shadowRoot.querySelector('.grid-container')
 
@@ -106,7 +106,7 @@ customElements.define('memory-game',
      *
      * @param {CustomEvent} event - Event for when a card gets flipped.
      */
-    #onBoardSizeChosen(event) {
+    #onBoardSizeChosen (event) {
       const boardSize = Number(this.#extractBoardSizeFromEventType(event.type))
       this.#generateBoardContent(boardSize)
       this.#boardCards = [...this.#board.children].map((child) => child.firstElementChild)
@@ -119,7 +119,7 @@ customElements.define('memory-game',
      *
      * @param {number} boardSize - The size of the board in total number of cards (rows * columns).
      */
-    #generateBoardContent(boardSize) {
+    #generateBoardContent (boardSize) {
       if (boardSize !== 4 && boardSize !== 8 && boardSize !== 16) {
         boardSize = this.#defaultBoardSize
       }
@@ -142,7 +142,7 @@ customElements.define('memory-game',
      * @param {number} rows - The number of card rows for the board.
      * @param {number} columns - The number of card columns for the board.
      */
-    #setBoardDimensions(rows, columns) {
+    #setBoardDimensions (rows, columns) {
       this.#board.style.gridTemplateRows = `repeat(${rows}, 1fr)`
       this.#board.style.gridTemplateColumns = `repeat(${columns}, 1fr)`
     }
@@ -152,7 +152,7 @@ customElements.define('memory-game',
      *
      * @param {CardFlippedEvent} event - Event for when a card gets flipped.
      */
-    #onCardFlipped(event) {
+    #onCardFlipped (event) {
       event.stopPropagation()
       const flippedCard = event.detail.memoryCard
       if (flippedCard.hasAttribute('face-up')) {
@@ -180,7 +180,7 @@ customElements.define('memory-game',
     /**
      * Disables all the cards in the board (makes them unclickable).
      */
-    #disableBoard() {
+    #disableBoard () {
       this.#boardCards.forEach((card) => {
         card.setAttribute('disabled', '')
       })
@@ -191,14 +191,14 @@ customElements.define('memory-game',
      *
      * @returns {boolean} True if cards match; otherwise, false.
      */
-    #isFacedUpCardsMatching() {
+    #isFacedUpCardsMatching () {
       return this.#cardsFacedUp[0].isEqualNode(this.#cardsFacedUp[1])
     }
 
     /**
      * Hides the cards that were matching.
      */
-    #hideMatchedCards() {
+    #hideMatchedCards () {
       this.#cardsFacedUp[0].setAttribute('hidden', '')
       this.#cardsFacedUp[1].setAttribute('hidden', '')
     }
@@ -206,7 +206,7 @@ customElements.define('memory-game',
     /**
      * Reverts cards to their default state (face down and clickable).
      */
-    #flipAllCardsDown() {
+    #flipAllCardsDown () {
       this.#boardCards.forEach((card) => {
         card.removeAttribute('disabled')
         card.removeAttribute('face-up')
@@ -219,21 +219,21 @@ customElements.define('memory-game',
      *
      * @returns {boolean} True if all cards have been matched; otherwise, false.
      */
-    #hasAllCardsBeenMatched() {
+    #hasAllCardsBeenMatched () {
       return this.#totalCardsMatched === this.#boardCards.length
     }
 
     /**
      * Ends game round.
      */
-    #endGameRound() {
+    #endGameRound () {
       this.#showPlayAgainHud()
     }
 
     /**
      * Shows a HUD for end of game.
      */
-    #showPlayAgainHud() {
+    #showPlayAgainHud () {
       this.#playAgainHud = document.createElement('play-again-hud')
       this.#playAgainHud.setAttribute('attempts', this.#attemptsAtMatching)
       const playTimeSeconds = Math.floor((new Date().getTime() - this.#startTime) / 1000)
@@ -244,14 +244,14 @@ customElements.define('memory-game',
     /**
      * Gets called when play again is chosen.
      */
-    #onPlayAgain() {
+    #onPlayAgain () {
       this.#startNewGameRound()
     }
 
     /**
      * Starts a new game round.
      */
-    #startNewGameRound() {
+    #startNewGameRound () {
       if (this.#playAgainHud) { this.#hidePlayAgainHud() }
 
       if (this.#board.hasChildNodes()) { this.#emptyBoard() }
@@ -265,14 +265,14 @@ customElements.define('memory-game',
     /**
      * Hides HUD for end of game.
      */
-    #hidePlayAgainHud() {
+    #hidePlayAgainHud () {
       this.#playAgainHud.remove()
     }
 
     /**
      * Empties the board.
      */
-    #emptyBoard() {
+    #emptyBoard () {
       while (this.#board.firstChild) {
         this.#board.removeChild(this.#board.firstChild)
       }
@@ -281,7 +281,7 @@ customElements.define('memory-game',
     /**
      * Resets the component's state.
      */
-    #resetGameState() {
+    #resetGameState () {
       this.#cardsFacedUp = []
       this.#attemptsAtMatching = 0
       this.#totalCardsMatched = 0
@@ -290,14 +290,14 @@ customElements.define('memory-game',
     /**
      * Hides HUD choosing board size.
      */
-    #hideChoiceHud() {
+    #hideChoiceHud () {
       this.#choiceHud.remove()
     }
 
     /**
      * Shows a HUD for choosing board size.
      */
-    #showChoiceHud() {
+    #showChoiceHud () {
       this.#choiceHud = document.createElement('choice-hud')
       this.shadowRoot.appendChild(this.#choiceHud)
     }
@@ -309,7 +309,7 @@ customElements.define('memory-game',
      *
      * @returns {number} The extracted board size.
      */
-    #extractBoardSizeFromEventType(eventType) {
+    #extractBoardSizeFromEventType (eventType) {
       const boardSize = eventType.match(/\d+/)[0]
       return boardSize
     }
@@ -317,7 +317,7 @@ customElements.define('memory-game',
     /**
      * Called after the element is inserted into the DOM.
      */
-    connectedCallback() {
+    connectedCallback () {
       this.shadowRoot.addEventListener('cardFlipped', (event) => this.#onCardFlipped(event))
       this.shadowRoot.addEventListener('playAgain', (event) => this.#onPlayAgain(event))
 

@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import { MemoryGameIconClickedEvent, ChatAppIconClickedEvent, TranslatorAppIconClickedEvent } from "./lib/events"
+import { MemoryGameIconClickedEvent, ChatAppIconClickedEvent, TranslatorAppIconClickedEvent } from './lib/events'
 
 /**
  * Define template.
@@ -64,7 +64,7 @@ customElements.define('bottom-panel',
     /**
      * Creates an instance of the current type.
      */
-    constructor() {
+    constructor () {
       super()
 
       // Attach a shadow DOM tree to this element and
@@ -78,13 +78,13 @@ customElements.define('bottom-panel',
     /**
      * Initalizes the component during construction.
      */
-    #initialize() {
+    #initialize () {
     }
 
     /**
      * Called after the element is inserted into the DOM.
      */
-    connectedCallback() {
+    connectedCallback () {
       this.shadowRoot.addEventListener('click', (event) => {
         if (event.target.id === 'btn-memory-game') {
           this.dispatchEvent(new MemoryGameIconClickedEvent())

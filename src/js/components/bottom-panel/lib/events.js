@@ -8,29 +8,35 @@ class MemoryGameIconClickedEvent extends CustomEvent {
   /**
    * Constructs the event.
    */
-  constructor() {
+  constructor () {
     super('memoryGameIconClicked', {
       bubbles: true
     })
   }
 }
 
+/**
+ *
+ */
 class ChatAppIconClickedEvent extends CustomEvent {
   /**
    * Constructs the event.
    */
-  constructor() {
+  constructor () {
     super('chatAppIconClicked', {
       bubbles: true
     })
   }
 }
 
+/**
+ *
+ */
 class TranslatorAppIconClickedEvent extends CustomEvent {
   /**
    * Constructs the event.
    */
-  constructor() {
+  constructor () {
     super('translatorAppIconClicked', {
       bubbles: true
     })

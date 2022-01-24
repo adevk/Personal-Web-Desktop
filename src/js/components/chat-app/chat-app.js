@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-//const BACK_IMG_URL = new URL('images/beach_640.jpg', import.meta.url).href
+// const BACK_IMG_URL = new URL('images/beach_640.jpg', import.meta.url).href
 
 /**
  * Define template.
@@ -81,7 +81,7 @@ customElements.define('chat-app',
     /**
      * Creates an instance of the current type.
      */
-    constructor() {
+    constructor () {
       super()
 
       // Attach a shadow DOM tree to this element and
@@ -95,7 +95,7 @@ customElements.define('chat-app',
     /**
      * Initalizes the component during construction.
      */
-    #initialize() {
+    #initialize () {
       this.#screen = this.shadowRoot.querySelector('.screen')
       this.#inputSection = this.shadowRoot.querySelector('.input-section')
 
@@ -106,11 +106,17 @@ customElements.define('chat-app',
       }
     }
 
-    #isLoggedIn() {
+    /**
+     *
+     */
+    #isLoggedIn () {
       return localStorage.getItem('chatAppUsername')
     }
 
-    #createAndInitializeLoginForm() {
+    /**
+     *
+     */
+    #createAndInitializeLoginForm () {
       const loginForm = this.#createLoginForm()
       this.#inputSection.appendChild(loginForm)
       this.#btnLogin = this.shadowRoot.querySelector('#btn-login')
@@ -118,7 +124,10 @@ customElements.define('chat-app',
       this.#inputForm = this.shadowRoot.querySelector('#input-form')
     }
 
-    #createAndInitalizeMessageForm() {
+    /**
+     *
+     */
+    #createAndInitalizeMessageForm () {
       const messageForm = this.#createMessageForm()
       this.#inputSection.appendChild(messageForm)
       this.#textarea = this.shadowRoot.querySelector('#textarea')
@@ -129,21 +138,27 @@ customElements.define('chat-app',
       this.#initializeMessaging()
     }
 
-    #sendMessage() {
+    /**
+     *
+     */
+    #sendMessage () {
       const username = localStorage.getItem('chatAppUsername')
       const message = this.#textarea.value
       const objToSend = {
-        "type": "message",
-        "data": message,
-        "username": username,
-        "channel": "akramstestchatt",
-        "key": "eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd"
+        type: 'message',
+        data: message,
+        username: username,
+        channel: 'akramstestchatt',
+        key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
       }
       const json = JSON.stringify(objToSend)
       this.#webSocket.send(json)
     }
 
-    #initializeMessaging() {
+    /**
+     *
+     */
+    #initializeMessaging () {
       this.#btnSendMsg.addEventListener('click', (event) => {
         event.preventDefault()
         this.#sendMessage()
@@ -157,7 +172,10 @@ customElements.define('chat-app',
       })
     }
 
-    #createMessageForm() {
+    /**
+     *
+     */
+    #createMessageForm () {
       const messageFormTemplate = document.createElement('template')
       messageFormTemplate.innerHTML = `
         <div id="input-form">
@@ -170,7 +188,10 @@ customElements.define('chat-app',
       return messageFormTemplate.content.cloneNode(true)
     }
 
-    #createLoginForm() {
+    /**
+     *
+     */
+    #createLoginForm () {
       const loginFormTemplate = document.createElement('template')
       loginFormTemplate.innerHTML = `
         <div id="input-form">
@@ -182,7 +203,10 @@ customElements.define('chat-app',
       return loginFormTemplate.content.cloneNode(true)
     }
 
-    #startWebSocket() {
+    /**
+     *
+     */
+    #startWebSocket () {
       this.#webSocket = new WebSocket('wss://courselab.lnu.se/message-app/socket')
       this.#webSocket.addEventListener('open', (event) => {
         console.log('Socket open!')
@@ -198,31 +222,40 @@ customElements.define('chat-app',
       })
     }
 
-    #sendLoginConfirmation() {
+    /**
+     *
+     */
+    #sendLoginConfirmation () {
       const message = {
-        "type": "message",
-        "data": "You are logged in! Start chatting...",
-        "username": "The Chat",
-        "channel": "akramstestchatt",
-        "key": "eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd"
+        type: 'message',
+        data: 'You are logged in! Start chatting...',
+        username: 'The Chat',
+        channel: 'akramstestchatt',
+        key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
       }
       const json = JSON.stringify(message)
       this.#webSocket.send(json)
     }
 
-    #loginUser(username) {
+    /**
+     * @param username
+     */
+    #loginUser (username) {
       localStorage.setItem('chatAppUsername', username)
       this.#sendLoginConfirmation()
     }
 
-    #removePreviousInputForm() {
+    /**
+     *
+     */
+    #removePreviousInputForm () {
       this.#inputForm.remove()
     }
 
     /**
      * Called after the element is inserted into the DOM.
      */
-    connectedCallback() {
+    connectedCallback () {
       this.#startWebSocket()
       if (!this.#isLoggedIn()) {
         this.#btnLogin.addEventListener('click', (event) => {

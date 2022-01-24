@@ -81,7 +81,7 @@ customElements.define('play-again-hud',
     /**
      * Creates an instance of the current type.
      */
-    constructor() {
+    constructor () {
       super()
 
       // Attach a shadow DOM tree to this element and
@@ -95,7 +95,7 @@ customElements.define('play-again-hud',
     /**
      * Initalizes the component during construction.
      */
-    #initialize() {
+    #initialize () {
       this.#playAgainButton = this.shadowRoot.querySelector('#btn-play-again')
     }
 
@@ -104,14 +104,14 @@ customElements.define('play-again-hud',
      *
      * @returns {string[]} A string array of attributes to monitor.
      */
-    static get observedAttributes() {
+    static get observedAttributes () {
       return ['attempts', 'play-time']
     }
 
     /**
      * Called after the element is inserted into the DOM.
      */
-    connectedCallback() {
+    connectedCallback () {
       this.#playAgainButton.addEventListener('click', (event) => {
         this.dispatchEvent(new PlayAgainEvent())
       })
@@ -124,7 +124,7 @@ customElements.define('play-again-hud',
      * @param {*} oldValue - The old value.
      * @param {*} newValue - The new value.
      */
-    attributeChangedCallback(name, oldValue, newValue) {
+    attributeChangedCallback (name, oldValue, newValue) {
       if (name === 'attempts') {
         this.#attempts = newValue
         const attemptsLabel = this.shadowRoot.querySelector('#attempts-label')
