@@ -107,36 +107,35 @@ customElements.define('app-window',
     }
 
     /**
-     * Removes focus from all opened instances of the app.
-     */
-    static unFocusAllApps () {
-      AppWindow.openedInstances.forEach((app) => {
-        if (app) {
-          app.#removeFocus()
-        }
-      })
-    }
-
-    /**
-     * @param event
+     * Gets called when the app-window top-bar is clicked.
+     *
+     * @param {MouseEvent} event - onmousedown event.
      */
     #startDragging (event) {
       event.preventDefault()
       this.#startPosX = event.clientX
       this.#startPosY = event.clientY
       /**
-       * @param event
+       * Setting handler for onmouseup events.
+       *
+       * @param {MouseEvent} event - onmouseup event.
+       * @returns {any} Is not supposed to return anything (Required by lint).
        */
       document.onmouseup = (event) => this.#stopDragging(event)
       /**
-       * @param event
+       * Setting handler for onmousemove events.
+       *
+       * @param {MouseEvent} event - onmousemove event.
+       * @returns {any} Is not supposed to return anything (Required by lint).
        */
       document.onmousemove = (event) => this.#dragWindow(event)
       this.#giveFocus()
     }
 
     /**
-     * @param event
+     * Is continually called while the window is dragged.
+     *
+     * @param {MouseEvent} event - onmousedown event.
      */
     #dragWindow (event) {
       event.preventDefault()
@@ -146,37 +145,28 @@ customElements.define('app-window',
       this.#startPosX = event.clientX
       this.#startPosY = event.clientY
 
-      const newTop = this.offsetTop - this.#offsetY
-      const newLeft = this.offsetLeft - this.#offsetX
-      // console.log(`new top: ${newTop}`)
+      const newTop = this.offsetTop - this.#offsetY // The new top value (coordinate) for the css top attribute.
+      const newLeft = this.offsetLeft - this.#offsetX // The new left value (coordinate) for the css left attribute.
+
+      // If the new top coordinate is inside the viewport, move the app.
       if (newTop > 0 && newTop < (window.innerHeight - this.getBoundingClientRect().height)) {
         this.style.top = (newTop) + 'px'
       }
+      // If the new left coordinate is inside the viewport, move the app.
       if (newLeft > 0 && newLeft < (window.innerWidth - this.getBoundingClientRect().width)) {
         this.style.left = newLeft + 'px'
       }
-
-      /*  console.log('top: ' + this.style.top)
-      console.log('left: ' + this.style.left)
-      const rect = this.getBoundingClientRect()
-      console.log(`x: ${rect.x}, y: ${rect.y}, top: ${rect.top}, left: ${rect.left}, bottom: ${rect.bottom}, right: ${rect.right}`)
-      console.log(`Window - width: ${window.innerWidth}, height: ${window.innerHeight}`) */
     }
 
     /**
-     * @param event
+     * Called when the dragging of the window stops.
+     *
+     * @param {MouseEvent} event - onmouseup event.
      */
     #stopDragging (event) {
       event.preventDefault()
       document.onmousemove = null
       document.onmouseup = null
-    }
-
-    /**
-     * Removes focus from the instance.
-     */
-    #removeFocus () {
-      this.style.removeProperty('z-index')
     }
 
     /**
@@ -188,17 +178,43 @@ customElements.define('app-window',
     }
 
     /**
+     * Removes focus from all opened instances of the app.
+     */
+     static unFocusAllApps () {
+      AppWindow.openedInstances.forEach((app) => {
+        if (app) {
+          app.#removeFocus()
+        }
+      })
+    }
+
+    /**
+     * Removes focus from the instance.
+     */
+    #removeFocus () {
+      this.style.removeProperty('z-index')
+    }
+
+    /**
      * Called after the element is inserted into the DOM.
      */
     connectedCallback () {
       this.addEventListener('click', () => this.#giveFocus())
+      this.#btnClose.addEventListener('click', () => this.remove())
+
       /**
-       * @param event
+       * Setting handler for onmousedown events.
+       *
+       * @param {MouseEvent} event - onmousedown event.
+       * @returns {any} Is not supposed to return anything (Required by lint).
        */
       this.#topBar.onmousedown = (event) => this.#startDragging(event)
-      this.#btnClose.addEventListener('click', () => this.remove())
+
       /**
-       * @param event
+       * Setting handler for onmouseup events.
+       *
+       * @param {MouseEvent} event - onmouseup event.
+       * @returns {any} Is not supposed to return anything (Required by lint).
        */
       document.onmouseup = (event) => this.#stopDragging(event)
       this.#giveFocus()
