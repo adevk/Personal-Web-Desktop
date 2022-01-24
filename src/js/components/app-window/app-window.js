@@ -80,7 +80,7 @@ customElements.define('app-window',
     /**
      * Creates an instance of the current type.
      */
-    constructor() {
+    constructor () {
       super()
 
       // Attach a shadow DOM tree to this element and
@@ -94,7 +94,7 @@ customElements.define('app-window',
     /**
      * Initalizes the component during construction.
      */
-    #initialize() {
+    #initialize () {
       this.#btnClose = this.shadowRoot.querySelector('.btn-close')
       this.#topBar = this.shadowRoot.querySelector('.top-bar')
 
@@ -109,10 +109,10 @@ customElements.define('app-window',
     /**
      * Removes focus from all opened instances of the app.
      */
-    static unFocusAllApps() {
+    static unFocusAllApps () {
       AppWindow.openedInstances.forEach((app) => {
-        if (app) { 
-          app.#removeFocus() 
+        if (app) {
+          app.#removeFocus()
         }
       })
     }
@@ -120,7 +120,7 @@ customElements.define('app-window',
     /**
      * @param event
      */
-    #startDragging(event) {
+    #startDragging (event) {
       event.preventDefault()
       this.#startPosX = event.clientX
       this.#startPosY = event.clientY
@@ -138,7 +138,7 @@ customElements.define('app-window',
     /**
      * @param event
      */
-    #dragWindow(event) {
+    #dragWindow (event) {
       event.preventDefault()
 
       this.#offsetX = this.#startPosX - event.clientX
@@ -166,7 +166,7 @@ customElements.define('app-window',
     /**
      * @param event
      */
-    #stopDragging(event) {
+    #stopDragging (event) {
       event.preventDefault()
       document.onmousemove = null
       document.onmouseup = null
@@ -175,14 +175,14 @@ customElements.define('app-window',
     /**
      * Removes focus from the instance.
      */
-    #removeFocus() {
+    #removeFocus () {
       this.style.removeProperty('z-index')
     }
 
     /**
      * Gives focus (puts on top of other) to the instance.
      */
-    #giveFocus() {
+    #giveFocus () {
       AppWindow.unFocusAllApps()
       this.style.setProperty('z-index', 1000)
     }
@@ -190,7 +190,7 @@ customElements.define('app-window',
     /**
      * Called after the element is inserted into the DOM.
      */
-    connectedCallback() {
+    connectedCallback () {
       this.addEventListener('click', () => this.#giveFocus())
       /**
        * @param event
