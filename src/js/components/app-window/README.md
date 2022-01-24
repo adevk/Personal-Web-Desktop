@@ -1,17 +1,11 @@
-# &lt;choice-hud&gt;
-A HUD for choosing board size (web component).
-
-## Events
-| Event Name | Fired When |
-|------------|------------|
-| `board16Chosen`| Board size of 4x4 is chosen.
-| `card8Chosen`| Board size of 2x4 is chosen.
-| `card4Chosen`| Board size of 2x2 is chosen.
-
+# &lt;app-window&gt;
+An app window for containing an app (web component).
 
 ## Example
 ### Javascript
 ```javascript
-    const choiceHud = document.createElement('choice-hud')
-    this.shadowRoot.appendChild(choiceHud)
+    const memoryGame = document.createElement('memory-game')
+    const appWindow = document.createElement('app-window')
+    appWindow.shadowRoot.querySelector('.root').appendChild(memoryGame)
+    document.querySelector('main').appendChild(appWindow)
 ```
