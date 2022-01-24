@@ -6,6 +6,9 @@ A HUD showing up at game end allowing you to choose to replay game (web componen
 ### `attempts`
 A number attribute. Sets the number of attempts that will be shown in the HUD.
 
+### `play-time`
+A number attribute. Sets the total play time in seconds that will be shown in the HUD.
+
 ## Events
 | Event Name | Fired When |
 |------------|------------|

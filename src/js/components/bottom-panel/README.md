@@ -1,17 +1,17 @@
-# &lt;choice-hud&gt;
-A HUD for choosing board size (web component).
+# &lt;bottom-panel&gt;
+The bottom panel of the PWD application (web component).
 
 ## Events
 | Event Name | Fired When |
 |------------|------------|
-| `board16Chosen`| Board size of 4x4 is chosen.
-| `card8Chosen`| Board size of 2x4 is chosen.
-| `card4Chosen`| Board size of 2x2 is chosen.
+| `memoryGameIconClicked`| The memory-game icon in the bottom bar is clicked.
+| `chatAppIconClicked`| The chat-app icon in the bottom bar is clickedn.
+| `translatorAppIconClicked`| The translator-app icon in the bottom bar is clicked
 
 
 ## Example
 ### Javascript
 ```javascript
-    const choiceHud = document.createElement('choice-hud')
-    this.shadowRoot.appendChild(choiceHud)
+    const bottomPanel = document.createElement('bottom-panel')
+    this.shadowRoot.appendChild(bottomPanel)
 ```

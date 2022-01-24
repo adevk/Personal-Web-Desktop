@@ -5,8 +5,6 @@
  * @version 1.0.0
  */
 
-// const BACK_IMG_URL = new URL('images/beach_640.jpg', import.meta.url).href
-
 /**
  * Define template.
  */
@@ -161,10 +159,12 @@ customElements.define('chat-app',
      * Initializes messaging functionality.
      */
     #initializeMessaging () {
+      // Initializes normal messaging button.
       this.#btnSendMsg.addEventListener('click', (event) => {
         event.preventDefault()
         this.#sendMessage()
       })
+      // Initializes delayed messaging button.
       this.#btnSendDelayed.addEventListener('click', (event) => {
         event.preventDefault()
         const secondsDelay = this.#inputDelay.value

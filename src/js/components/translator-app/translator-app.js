@@ -68,7 +68,7 @@ customElements.define('translator-app',
     /**
      * Creates an instance of the current type.
      */
-    constructor () {
+    constructor() {
       super()
 
       // Attach a shadow DOM tree to this element and
@@ -82,7 +82,7 @@ customElements.define('translator-app',
     /**
      * Initalizes the component during construction.
      */
-    #initialize () {
+    #initialize() {
       this.#btnTranslate = this.shadowRoot.querySelector('button')
       this.#engInput = this.shadowRoot.querySelector('#input')
       this.#sweOutput = this.shadowRoot.querySelector('#output')
@@ -91,7 +91,7 @@ customElements.define('translator-app',
     /**
      * Called after the element is inserted into the DOM.
      */
-    connectedCallback () {
+    connectedCallback() {
       this.#btnTranslate.addEventListener('click', () => {
         const input = this.#engInput.value
 
@@ -105,9 +105,10 @@ customElements.define('translator-app',
           },
           data: qs.stringify({ source: 'en', target: 'sv', q: input })
         }
-
+        // Post input to translation api.
         axios.request(options).then((response) => {
           const translation = response.data.data.translations[0].translatedText
+          // Set received translation response to output element.
           this.#sweOutput.textContent = translation
         }).catch(function (error) {
           console.error(error)
