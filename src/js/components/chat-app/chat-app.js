@@ -20,19 +20,19 @@ template.innerHTML = `
         height: 400px;
       }
 
-      .input-section {
+      #messaging-form {
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        margin: 2px;
       }
 
-      .input-section * {
+      #messaging-form * {
         text-align: center;
         margin: 2px auto;
       }
 
       .root {
+        display: flex;
+        flex-direction: column;
         width: 100%;
         height: 100%;
       }
@@ -47,6 +47,7 @@ template.innerHTML = `
       }
 
       textarea {
+        box-sizing: border-box;
         width: 100%;
         height: 100%;
       }
@@ -182,7 +183,7 @@ customElements.define('chat-app',
     #createMessageForm () {
       const messageFormTemplate = document.createElement('template')
       messageFormTemplate.innerHTML = `
-        <div id="input-form">
+        <div id="messaging-form">
           <textarea id="textarea"></textarea>
           <button id="btn-send-msg">Send</button>
           <button id="btn-send-delayed">Send delayed</button>
@@ -200,7 +201,7 @@ customElements.define('chat-app',
     #createLoginForm () {
       const loginFormTemplate = document.createElement('template')
       loginFormTemplate.innerHTML = `
-        <div id="input-form">
+        <div id="login-form">
           <label>Please enter your username:</label>
           <input id="input-username" type="text">
           <button id="btn-login">Submit</button>

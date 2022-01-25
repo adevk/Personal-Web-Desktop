@@ -77,4 +77,4 @@ const addTranslatorApp = () => {
   activeTranslatorApps++
 }
 
-addTranslatorApp()
+addChatApp()
