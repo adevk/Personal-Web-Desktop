@@ -11,8 +11,6 @@ const MEMORY_IMG_URL = new URL('images/mental-health-cropped.jpg', import.meta.u
 const CHAT_IMG_URL = new URL('images/chat.png', import.meta.url).href
 const TRANSLATOR_IMG_URL = new URL('images/translate.png', import.meta.url).href
 
-
-
 /**
  * Define template.
  */
@@ -83,7 +81,7 @@ customElements.define('bottom-panel',
     /**
      * Creates an instance of the current type.
      */
-    constructor() {
+    constructor () {
       super()
 
       // Attach a shadow DOM tree to this element and
@@ -97,13 +95,13 @@ customElements.define('bottom-panel',
     /**
      * Initalizes the component during construction.
      */
-    #initialize() {
+    #initialize () {
     }
 
     /**
      * Called after the element is inserted into the DOM.
      */
-    connectedCallback() {
+    connectedCallback () {
       this.shadowRoot.addEventListener('click', (event) => {
         if (event.target.id === 'btn-memory-game') {
           this.dispatchEvent(new MemoryGameIconClickedEvent())
