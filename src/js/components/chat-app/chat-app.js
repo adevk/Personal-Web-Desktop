@@ -20,15 +20,26 @@ template.innerHTML = `
         height: 400px;
       }
 
-      /* #messaging-form {
+      #message-form {
         display: flex;
         flex-direction: column;
+        text-align: center;
       }
 
-      #messaging-form * {
+      #message-form * {
         text-align: center;
         margin: 2px auto;
-      } */
+      }
+
+      #login-form {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      #login-form * {
+        margin: 2px auto;
+      }
 
       .root {
         display: flex;
@@ -44,6 +55,10 @@ template.innerHTML = `
         overflow: scroll;
         padding: 6px;
         height: 70%;
+      }
+
+      .input-section {
+        padding: 6px;
       }
 
       textarea {
