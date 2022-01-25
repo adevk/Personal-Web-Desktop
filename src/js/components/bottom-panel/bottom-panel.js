@@ -7,6 +7,8 @@
 
 import { MemoryGameIconClickedEvent, ChatAppIconClickedEvent, TranslatorAppIconClickedEvent } from './lib/events'
 
+const BACK_IMG_URL = new URL('images/mental-health-cropped.jpg', import.meta.url).href
+
 /**
  * Define template.
  */
@@ -34,22 +36,25 @@ template.innerHTML = `
     }
 
     button {
-      background-color: blue;
-      border-color: black;
+      background-size: cover;
+      background-position: center;
+      repeat: no-repeat;
+
+      border: none;
       border-radius: 50%;
-
-      font-size: 16px;
-      font-weight: bold;
-
       margin: 0 10px;
 
-      height: 50px;
-      width: 50px;
+      height: 128px;
+      width: 128px;
+    }
+
+    #btn-memory-game {
+      background-image: url(${BACK_IMG_URL});
     }
   </style>
 
   <div class="root">
-    <button id="btn-memory-game">M</button>
+    <button id="btn-memory-game"></button>
     <button id="btn-chat-app">C</button>
     <button id="btn-translator-app">T</button>
   </div>
@@ -66,7 +71,7 @@ customElements.define('bottom-panel',
     /**
      * Creates an instance of the current type.
      */
-    constructor () {
+    constructor() {
       super()
 
       // Attach a shadow DOM tree to this element and
@@ -80,13 +85,13 @@ customElements.define('bottom-panel',
     /**
      * Initalizes the component during construction.
      */
-    #initialize () {
+    #initialize() {
     }
 
     /**
      * Called after the element is inserted into the DOM.
      */
-    connectedCallback () {
+    connectedCallback() {
       this.shadowRoot.addEventListener('click', (event) => {
         if (event.target.id === 'btn-memory-game') {
           this.dispatchEvent(new MemoryGameIconClickedEvent())
