@@ -20,7 +20,7 @@ template.innerHTML = `
         height: 400px;
       }
 
-      #messaging-form {
+      /* #messaging-form {
         display: flex;
         flex-direction: column;
       }
@@ -28,7 +28,7 @@ template.innerHTML = `
       #messaging-form * {
         text-align: center;
         margin: 2px auto;
-      }
+      } */
 
       .root {
         display: flex;
@@ -122,7 +122,7 @@ customElements.define('chat-app',
       this.#inputSection.appendChild(loginForm)
       this.#btnLogin = this.shadowRoot.querySelector('#btn-login')
       this.#inputUsername = this.shadowRoot.querySelector('#input-username')
-      this.#inputForm = this.shadowRoot.querySelector('#input-form')
+      this.#inputForm = this.shadowRoot.querySelector('#login-form')
     }
 
     /**
@@ -132,7 +132,7 @@ customElements.define('chat-app',
       const messageForm = this.#createMessageForm()
       this.#inputSection.appendChild(messageForm)
       this.#textarea = this.shadowRoot.querySelector('#textarea')
-      this.#inputForm = this.shadowRoot.querySelector('#input-form')
+      this.#inputForm = this.shadowRoot.querySelector('#message-form')
       this.#btnSendMsg = this.shadowRoot.querySelector('#btn-send-msg')
       this.#btnSendDelayed = this.shadowRoot.querySelector('#btn-send-delayed')
       this.#inputDelay = this.shadowRoot.querySelector('#input-delay')
@@ -183,7 +183,7 @@ customElements.define('chat-app',
     #createMessageForm () {
       const messageFormTemplate = document.createElement('template')
       messageFormTemplate.innerHTML = `
-        <div id="messaging-form">
+        <div id="message-form">
           <textarea id="textarea"></textarea>
           <button id="btn-send-msg">Send</button>
           <button id="btn-send-delayed">Send delayed</button>
