@@ -20,9 +20,11 @@ template.innerHTML = `
     }
 
     .root {
-      background-color: brown;
-      box-shadow: 0 0 8px black;
+      background: transparent;
+      display: flex;
+      justify-content: center;
       padding: 16px 0;
+      margin-bottom: 30px;
     }
 
     span {
@@ -39,7 +41,7 @@ template.innerHTML = `
       font-size: 16px;
       font-weight: bold;
 
-      margin-left: 10px;
+      margin: 0 10px;
 
       height: 50px;
       width: 50px;
