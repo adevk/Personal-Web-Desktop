@@ -41,6 +41,9 @@ template.innerHTML = `
         margin: 2px auto;
       }
 
+      #input-delayed {
+        width: 40px;
+      }
       .root {
         display: flex;
         flex-direction: column;
@@ -95,7 +98,7 @@ customElements.define('chat-app',
     /**
      * Creates an instance of the current type.
      */
-    constructor () {
+    constructor() {
       super()
 
       // Attach a shadow DOM tree to this element and
@@ -109,7 +112,7 @@ customElements.define('chat-app',
     /**
      * Initalizes the component during construction.
      */
-    #initialize () {
+    #initialize() {
       this.#screen = this.shadowRoot.querySelector('.screen')
       this.#inputSection = this.shadowRoot.querySelector('.input-section')
 
@@ -125,14 +128,14 @@ customElements.define('chat-app',
      *
      * @returns {string} The username (truthful value) if logged in.
      */
-    #isLoggedIn () {
+    #isLoggedIn() {
       return localStorage.getItem('chatAppUsername')
     }
 
     /**
      * Creates and initializes the login form.
      */
-    #createAndInitializeLoginForm () {
+    #createAndInitializeLoginForm() {
       const loginForm = this.#createLoginForm()
       this.#inputSection.appendChild(loginForm)
       this.#btnLogin = this.shadowRoot.querySelector('#btn-login')
@@ -143,7 +146,7 @@ customElements.define('chat-app',
     /**
      * Creates and initalizes the messaging form.
      */
-    #createAndInitalizeMessageForm () {
+    #createAndInitalizeMessageForm() {
       const messageForm = this.#createMessageForm()
       this.#inputSection.appendChild(messageForm)
       this.#textarea = this.shadowRoot.querySelector('#textarea')
@@ -157,7 +160,7 @@ customElements.define('chat-app',
     /**
      * Sends the inputted message to the websocket server.
      */
-    #sendMessage () {
+    #sendMessage() {
       const username = localStorage.getItem('chatAppUsername')
       const message = this.#textarea.value
       const objToSend = {
@@ -174,7 +177,7 @@ customElements.define('chat-app',
     /**
      * Initializes messaging functionality.
      */
-    #initializeMessaging () {
+    #initializeMessaging() {
       // Initializes normal messaging button.
       this.#btnSendMsg.addEventListener('click', (event) => {
         event.preventDefault()
@@ -195,14 +198,16 @@ customElements.define('chat-app',
      *
      * @returns {HTMLElement} The messaging form.
      */
-    #createMessageForm () {
+    #createMessageForm() {
       const messageFormTemplate = document.createElement('template')
       messageFormTemplate.innerHTML = `
         <div id="message-form">
           <textarea id="textarea"></textarea>
-          <button id="btn-send-msg">Send</button>
-          <button id="btn-send-delayed">Send delayed</button>
-          <input id="input-delay" type="number">
+          <button id="btn-send-msg">Send message</button>
+          <div id="delayed-form">
+            <button id="btn-send-delayed">Send delayed</button>
+            <input id="input-delayed" type="number" name="seconds" min="1">
+          </div>
         </div>
       `
       return messageFormTemplate.content.cloneNode(true)
@@ -213,7 +218,7 @@ customElements.define('chat-app',
      *
      * @returns {HTMLElement} The login form.
      */
-    #createLoginForm () {
+    #createLoginForm() {
       const loginFormTemplate = document.createElement('template')
       loginFormTemplate.innerHTML = `
         <div id="login-form">
@@ -228,7 +233,7 @@ customElements.define('chat-app',
     /**
      * Starts up the websocket connection.
      */
-    #startWebSocket () {
+    #startWebSocket() {
       this.#webSocket = new WebSocket('wss://courselab.lnu.se/message-app/socket')
       this.#webSocket.addEventListener('open', (event) => {
         console.log('Socket open!')
@@ -246,7 +251,7 @@ customElements.define('chat-app',
     /**
      * Sends confirmation message at succesful login.
      */
-    #sendLoginConfirmation () {
+    #sendLoginConfirmation() {
       const message = {
         type: 'message',
         data: 'You are logged in! Start chatting...',
@@ -263,7 +268,7 @@ customElements.define('chat-app',
      *
      * @param {string} username - The username of the user.
      */
-    #loginUser (username) {
+    #loginUser(username) {
       localStorage.setItem('chatAppUsername', username)
       this.#sendLoginConfirmation()
     }
@@ -271,14 +276,14 @@ customElements.define('chat-app',
     /**
      * Removes the current input form.
      */
-    #removePreviousInputForm () {
+    #removePreviousInputForm() {
       this.#inputForm.remove()
     }
 
     /**
      * Called after the element is inserted into the DOM.
      */
-    connectedCallback () {
+    connectedCallback() {
       this.#startWebSocket()
       if (!this.#isLoggedIn()) {
         this.#btnLogin.addEventListener('click', (event) => {
