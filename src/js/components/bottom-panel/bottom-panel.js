@@ -7,7 +7,11 @@
 
 import { MemoryGameIconClickedEvent, ChatAppIconClickedEvent, TranslatorAppIconClickedEvent } from './lib/events'
 
-const BACK_IMG_URL = new URL('images/mental-health-cropped.jpg', import.meta.url).href
+const MEMORY_IMG_URL = new URL('images/mental-health-cropped.jpg', import.meta.url).href
+const CHAT_IMG_URL = new URL('images/chat.png', import.meta.url).href
+const TRANSLATOR_IMG_URL = new URL('images/translate.png', import.meta.url).href
+
+
 
 /**
  * Define template.
@@ -49,14 +53,22 @@ template.innerHTML = `
     }
 
     #btn-memory-game {
-      background-image: url(${BACK_IMG_URL});
+      background-image: url(${MEMORY_IMG_URL});
+    }
+
+    #btn-chat-app {
+      background-image: url(${CHAT_IMG_URL});
+    }
+
+    #btn-translator-app {
+      background-image: url(${TRANSLATOR_IMG_URL});
     }
   </style>
 
   <div class="root">
     <button id="btn-memory-game"></button>
-    <button id="btn-chat-app">C</button>
-    <button id="btn-translator-app">T</button>
+    <button id="btn-chat-app"></button>
+    <button id="btn-translator-app"></button>
   </div>
   `
 
