@@ -45,6 +45,7 @@ template.innerHTML = `
         width: 40px;
       }
       .root {
+        background-color: #34495e;
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -52,9 +53,9 @@ template.innerHTML = `
       }
 
       .screen {
+        background-color: white;
         border: 1px solid black;
         margin: 2px;
-        margin-bottom: 12px;
         overflow: scroll;
         padding: 6px;
         height: 70%;
